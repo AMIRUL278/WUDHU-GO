@@ -1,0 +1,2867 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Misi Wuduk BoBoiBoy: Kuasa Air Penyelamat</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Fredoka (kartun mesra kanak-kanak), Nunito & Amiri (tulisan Arab yang jelas) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            cartoon: ['"Fredoka"', '"Nunito"', 'sans-serif'],
+            body: ['"Nunito"', 'sans-serif'],
+            arabic: ['"Amiri"', 'serif'],
+          },
+          colors: {
+            skyAqua: '#0ea5e9',
+            oceanDeep: '#0369a1',
+            waterBright: '#38bdf8',
+            leafGreen: '#22c55e',
+            heroOrange: '#f97316',
+            sunYellow: '#facc15',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* ================================================================
+       GAYA KARTUN 2D, ANIMASI WATAK & KESAN VISUAL PERMAINAN
+       ================================================================ */
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      overflow-x: hidden;
+      user-select: none;
+      background: linear-gradient(180deg, #0284c7 0%, #38bdf8 48%, #bae6fd 78%, #4ade80 78%, #16a34a 100%);
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, .font-cartoon {
+      font-family: 'Fredoka', 'Nunito', sans-serif;
+    }
+
+    /* Butang gaya permainan kartun 3D */
+    .btn-game {
+      position: relative;
+      transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease, filter 0.15s ease;
+      border: 3px solid rgba(255, 255, 255, 0.85);
+    }
+    .btn-game:hover:not(:disabled) {
+      filter: brightness(1.06);
+      transform: translateY(-2px);
+    }
+    .btn-game:active:not(:disabled) {
+      transform: translateY(4px) scale(0.98);
+    }
+    .btn-game:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      filter: grayscale(0.25);
+    }
+
+    .btn-orange {
+      background: linear-gradient(180deg, #fb923c 0%, #ea580c 100%);
+      box-shadow: 0 6px 0 #9a3412, 0 10px 20px rgba(154, 52, 18, 0.35);
+    }
+    .btn-orange:active:not(:disabled) {
+      box-shadow: 0 2px 0 #9a3412, 0 4px 10px rgba(154, 52, 18, 0.3);
+    }
+
+    .btn-blue {
+      background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+      box-shadow: 0 6px 0 #075985, 0 10px 20px rgba(7, 89, 133, 0.32);
+    }
+    .btn-blue:active:not(:disabled) {
+      box-shadow: 0 2px 0 #075985, 0 4px 10px rgba(7, 89, 133, 0.3);
+    }
+
+    .btn-green {
+      background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%);
+      box-shadow: 0 6px 0 #166534, 0 10px 20px rgba(22, 101, 52, 0.32);
+    }
+    .btn-green:active:not(:disabled) {
+      box-shadow: 0 2px 0 #166534, 0 4px 10px rgba(22, 101, 52, 0.3);
+    }
+
+    .btn-red {
+      background: linear-gradient(180deg, #f87171 0%, #dc2626 100%);
+      box-shadow: 0 6px 0 #991b1b, 0 10px 20px rgba(153, 27, 27, 0.32);
+    }
+    .btn-red:active:not(:disabled) {
+      box-shadow: 0 2px 0 #991b1b, 0 4px 10px rgba(153, 27, 27, 0.3);
+    }
+
+    .btn-white {
+      background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+      box-shadow: 0 5px 0 #94a3b8, 0 8px 16px rgba(15, 23, 42, 0.16);
+      border-color: #cbd5e1;
+    }
+    .btn-white:active:not(:disabled) {
+      box-shadow: 0 1px 0 #94a3b8;
+    }
+
+    /* Kad panel kartun */
+    .cartoon-card {
+      background: rgba(255, 255, 255, 0.96);
+      border: 4px solid #ffffff;
+      box-shadow: 0 14px 32px rgba(3, 105, 161, 0.24), 0 0 0 3px rgba(14, 165, 233, 0.28);
+    }
+
+    /* Animasi terapung watak & awan */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes floatFast {
+      0%, 100% { transform: translateY(0px) rotate(-1deg); }
+      50% { transform: translateY(-7px) rotate(1.5deg); }
+    }
+    @keyframes cloudDrift {
+      0% { transform: translateX(-8%); }
+      50% { transform: translateX(8%); }
+      100% { transform: translateX(-8%); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.7)); transform: scale(1); }
+      50% { filter: drop-shadow(0 0 16px rgba(250, 204, 21, 0.95)); transform: scale(1.06); }
+    }
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.84) translateY(16px); }
+      70% { opacity: 1; transform: scale(1.03) translateY(-2px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes shakeWrong {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+    @keyframes waterFall {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 64px; }
+    }
+    @keyframes floatScore {
+      0% { opacity: 1; transform: translateY(0) scale(0.9); }
+      100% { opacity: 0; transform: translateY(-60px) scale(1.25); }
+    }
+    @keyframes splashBurst {
+      0% { opacity: 1; transform: translate(0, 0) scale(0.4); }
+      100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.2); }
+    }
+
+    .anim-float { animation: floatSlow 3.4s ease-in-out infinite; }
+    .anim-float-fast { animation: floatFast 2.5s ease-in-out infinite; }
+    .anim-cloud { animation: cloudDrift 16s ease-in-out infinite; }
+    .anim-glow { animation: pulseGlow 2.2s ease-in-out infinite; }
+    .anim-pop { animation: popIn 0.36s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    .anim-shake { animation: shakeWrong 0.42s ease-in-out; }
+
+    /* Teks bertajuk dengan garis luar kartun */
+    .title-stroke {
+      text-shadow:
+        0 4px 0 #075985,
+        0 8px 18px rgba(3, 105, 161, 0.45);
+    }
+
+    /* Kawasan latar tema mengikut peringkat */
+    .bg-theme-planet {
+      background: linear-gradient(180deg, #075985 0%, #0ea5e9 34%, #7dd3fc 66%, #e0f2fe 82%, #065f46 100%);
+    }
+    .bg-theme-waterfall {
+      background: linear-gradient(180deg, #0c4a6e 0%, #0284c7 38%, #38bdf8 68%, #bae6fd 84%, #064e3b 100%);
+    }
+    .bg-theme-garden {
+      background: linear-gradient(180deg, #0369a1 0%, #38bdf8 40%, #bae6fd 70%, #fef9c3 84%, #14532d 100%);
+    }
+    .bg-theme-hq {
+      background: linear-gradient(180deg, #020617 0%, #0f172a 38%, #1e3a8a 72%, #0284c7 90%, #0f172a 100%);
+    }
+
+    /* Animasi kabus air terjun & sinaran matahari HD */
+    @keyframes sunRaySpin {
+      0%, 100% { opacity: 0.35; transform: rotate(-4deg) scale(1); }
+      50% { opacity: 0.6; transform: rotate(4deg) scale(1.06); }
+    }
+    @keyframes waterfallFlow {
+      0% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -120; }
+    }
+    @keyframes mistPulse {
+      0%, 100% { opacity: 0.45; transform: scaleX(1) translateY(0); }
+      50% { opacity: 0.78; transform: scaleX(1.08) translateY(-4px); }
+    }
+    .hd-sunray { animation: sunRaySpin 9s ease-in-out infinite; transform-origin: 85% 12%; }
+    .hd-water-stream { stroke-dasharray: 18 12; animation: waterfallFlow 1.6s linear infinite; }
+    .hd-mist { animation: mistPulse 4.5s ease-in-out infinite; transform-origin: center; }
+
+    /* Kemasan 3D glossy pada pentas watak */
+    .hd-avatar-wrap {
+      filter: drop-shadow(0 10px 14px rgba(3, 105, 161, 0.35));
+    }
+
+    /* Zon sentuh tubuh di Level 3 */
+    .body-zone {
+      cursor: pointer;
+      transition: filter 0.18s ease, transform 0.18s ease, opacity 0.18s ease;
+    }
+    .body-zone:hover {
+      filter: drop-shadow(0 0 10px #facc15) brightness(1.08);
+    }
+    .body-zone-completed {
+      filter: drop-shadow(0 0 12px #38bdf8);
+    }
+
+    /* Item seret dan lepas (Drag & Drop) */
+    .drag-card {
+      touch-action: none;
+      cursor: grab;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .drag-card:active {
+      cursor: grabbing;
+    }
+    .drag-ghost {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      transform: scale(1.06) rotate(-2deg);
+      box-shadow: 0 18px 34px rgba(3, 105, 161, 0.35);
+    }
+    .drop-slot.slot-over {
+      border-color: #f97316 !important;
+      background-color: #fff7ed !important;
+      transform: scale(1.02);
+    }
+
+    /* Zarah kesan khas */
+    .fx-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      animation: splashBurst 0.78s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .fx-score-float {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      animation: floatScore 0.95s ease-out forwards;
+    }
+
+    /* Bar skrol kemas */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.25); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb { background: rgba(2,132,199,0.55); border-radius: 99px; }
+  </style>
+</head>
+<body id="gameBody" class="bg-theme-planet text-slate-800 relative">
+
+  <!-- ============================================================== -->
+  <!-- LATAR BELAKANG DUNIA ANIMASI PLANET WUDUK (HD REALISTIK 3D)    -->
+  <!-- ============================================================== -->
+  <div id="hdBackdrop" class="fixed inset-0 pointer-events-none overflow-hidden -z-10" aria-hidden="true">
+    <!-- Lapisan Pemandangan HD SVG (Gunung Berkabus, Air Terjun Realistik, Cahaya Volumetrik) -->
+    <svg id="hdSceneSvg" class="absolute inset-0 w-full h-full" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <!-- Cahaya Matahari Volumetrik -->
+        <radialGradient id="hdSunGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+          <stop offset="25%" stop-color="#fef08a" stop-opacity="0.92"/>
+          <stop offset="55%" stop-color="#fde047" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="hdRayGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#fef9c3" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+        <!-- Gunung Jauh (Perspektif Atmosfera) -->
+        <linearGradient id="hdFarMountain" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.65"/>
+          <stop offset="60%" stop-color="#0284c7" stop-opacity="0.72"/>
+          <stop offset="100%" stop-color="#0369a1" stop-opacity="0.88"/>
+        </linearGradient>
+        <!-- Tebing Batu Realistik -->
+        <linearGradient id="hdCliffLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#64748b"/>
+          <stop offset="45%" stop-color="#475569"/>
+          <stop offset="100%" stop-color="#1e293b"/>
+        </linearGradient>
+        <linearGradient id="hdCliffRight" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#94a3b8"/>
+          <stop offset="50%" stop-color="#475569"/>
+          <stop offset="100%" stop-color="#1e293b"/>
+        </linearGradient>
+        <!-- Bukit Hijau Berlapis -->
+        <linearGradient id="hdHillMid" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#4ade80"/>
+          <stop offset="45%" stop-color="#16a34a"/>
+          <stop offset="100%" stop-color="#14532d"/>
+        </linearGradient>
+        <linearGradient id="hdHillFront" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#22c55e"/>
+          <stop offset="55%" stop-color="#15803d"/>
+          <stop offset="100%" stop-color="#052e16"/>
+        </linearGradient>
+        <!-- Aliran Air Terjun & Sungai Jernih -->
+        <linearGradient id="hdWaterfallGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.96"/>
+          <stop offset="35%" stop-color="#38bdf8" stop-opacity="0.9"/>
+          <stop offset="80%" stop-color="#0284c7" stop-opacity="0.92"/>
+          <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.98"/>
+        </linearGradient>
+        <linearGradient id="hdLakeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#7dd3fc"/>
+          <stop offset="45%" stop-color="#0ea5e9"/>
+          <stop offset="100%" stop-color="#0369a1"/>
+        </linearGradient>
+        <radialGradient id="hdMistGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.92"/>
+          <stop offset="60%" stop-color="#e0f2fe" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="#bae6fd" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="hdSoftBlur" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="8"/>
+        </filter>
+        <filter id="hdCloudShadow" x="-10%" y="-10%" width="120%" height="130%">
+          <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#0369a1" flood-opacity="0.22"/>
+        </filter>
+      </defs>
+
+      <!-- Matahari & Sinaran Cahaya Volumetrik -->
+      <g id="hdSunGroup">
+        <circle cx="1220" cy="130" r="190" fill="url(#hdSunGlow)"/>
+        <g class="hd-sunray">
+          <polygon points="1220,130 780,680 910,720" fill="url(#hdRayGrad)"/>
+          <polygon points="1220,130 980,760 1120,780" fill="url(#hdRayGrad)"/>
+          <polygon points="1220,130 560,540 660,600" fill="url(#hdRayGrad)"/>
+        </g>
+        <circle cx="1220" cy="130" r="52" fill="#fef9c3" opacity="0.95"/>
+      </g>
+
+      <!-- Awan Kumulus Realistik Berbayang -->
+      <g class="anim-cloud" filter="url(#hdCloudShadow)" opacity="0.92">
+        <g transform="translate(110,85) scale(1.15)">
+          <ellipse cx="95" cy="56" rx="82" ry="26" fill="#e0f2fe"/>
+          <circle cx="55" cy="46" r="28" fill="#ffffff"/>
+          <circle cx="96" cy="34" r="36" fill="#ffffff"/>
+          <circle cx="138" cy="45" r="27" fill="#ffffff"/>
+          <rect x="42" y="45" width="106" height="28" rx="14" fill="#ffffff"/>
+        </g>
+        <g transform="translate(860,145) scale(0.9)">
+          <ellipse cx="95" cy="56" rx="80" ry="24" fill="#e0f2fe"/>
+          <circle cx="58" cy="46" r="26" fill="#ffffff"/>
+          <circle cx="98" cy="34" r="34" fill="#ffffff"/>
+          <circle cx="136" cy="46" r="24" fill="#ffffff"/>
+          <rect x="46" y="45" width="98" height="26" rx="13" fill="#ffffff"/>
+        </g>
+      </g>
+
+      <!-- Banjaran Gunung Jauh dengan Kabus Atmosfera -->
+      <path d="M0,560 L190,375 L380,490 L590,335 L820,485 L1050,350 L1270,460 L1440,390 L1440,900 L0,900 Z" fill="url(#hdFarMountain)"/>
+      <path d="M0,585 Q360,515 720,565 T1440,540 L1440,680 L0,680 Z" fill="#e0f2fe" opacity="0.35" filter="url(#hdSoftBlur)"/>
+
+      <!-- Tebing Batu & Air Terjun Suci Planet Wuduk -->
+      <g id="hdWaterfallGroup">
+        <!-- Tebing Kiri & Kanan -->
+        <path d="M460,530 L575,445 L675,465 L655,700 L440,700 Z" fill="url(#hdCliffLeft)"/>
+        <path d="M775,465 L885,435 L1010,540 L990,700 L795,700 Z" fill="url(#hdCliffRight)"/>
+        <!-- Sorotan batu terkena cahaya -->
+        <path d="M575,445 L640,460 L610,565 L540,540 Z" fill="#94a3b8" opacity="0.35"/>
+        <path d="M885,435 L940,480 L890,580 L840,520 Z" fill="#cbd5e1" opacity="0.28"/>
+
+        <!-- Curahan Air Terjun Utama -->
+        <path d="M665,465 Q725,455 785,465 L805,710 Q725,725 645,710 Z" fill="url(#hdWaterfallGrad)"/>
+        <!-- Garisan aliran air terjun beranimasi -->
+        <path class="hd-water-stream" d="M685,468 L675,705 M712,464 L708,712 M742,464 L748,712 M768,468 L778,705" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.72"/>
+        <!-- Kabus & Buih di Kaki Air Terjun -->
+        <ellipse class="hd-mist" cx="725" cy="708" rx="135" ry="38" fill="url(#hdMistGrad)" filter="url(#hdSoftBlur)"/>
+        <ellipse class="hd-mist" cx="725" cy="715" rx="95" ry="22" fill="#ffffff" opacity="0.7"/>
+      </g>
+
+      <!-- Bukit Hijau Pertengahan & Tasik Jernih -->
+      <path d="M0,625 Q220,530 490,620 L650,695 L0,730 Z" fill="url(#hdHillMid)"/>
+      <path d="M1440,615 Q1200,520 960,625 L800,695 L1440,730 Z" fill="url(#hdHillMid)"/>
+
+      <!-- Tasik & Sungai Berkilau -->
+      <path d="M480,700 Q725,675 970,700 L1180,900 L260,900 Z" fill="url(#hdLakeGrad)"/>
+      <ellipse cx="725" cy="765" rx="185" ry="12" fill="#e0f2fe" opacity="0.45"/>
+      <ellipse cx="715" cy="818" rx="240" ry="14" fill="#bae6fd" opacity="0.32"/>
+
+      <!-- Bukit & Dedaunan Hadapan -->
+      <path d="M0,705 Q190,655 390,735 Q490,775 560,900 L0,900 Z" fill="url(#hdHillFront)"/>
+      <path d="M1440,695 Q1240,645 1040,740 Q940,785 880,900 L1440,900 Z" fill="url(#hdHillFront)"/>
+
+      <!-- Siluet Pokok Tropika Berdimensi di Kiri & Kanan -->
+      <g opacity="0.92">
+        <circle cx="90" cy="690" r="56" fill="#15803d"/>
+        <circle cx="145" cy="715" r="46" fill="#16a34a"/>
+        <circle cx="65" cy="665" r="36" fill="#22c55e" opacity="0.8"/>
+        <circle cx="1355" cy="680" r="58" fill="#15803d"/>
+        <circle cx="1295" cy="710" r="44" fill="#16a34a"/>
+        <circle cx="1375" cy="655" r="34" fill="#22c55e" opacity="0.8"/>
+      </g>
+
+      <!-- Lapisan Sci-Fi / Bintang (Aktif pada Level 6: Markas Pertarungan Akhir) -->
+      <g id="hdHqOverlay" opacity="0">
+        <circle cx="220" cy="140" r="2.5" fill="#ffffff"/>
+        <circle cx="420" cy="95" r="2" fill="#bae6fd"/>
+        <circle cx="680" cy="120" r="3" fill="#fef08a"/>
+        <circle cx="960" cy="85" r="2.5" fill="#ffffff"/>
+        <circle cx="1180" cy="180" r="2" fill="#38bdf8"/>
+        <circle cx="310" cy="240" r="2" fill="#ffffff"/>
+        <circle cx="1080" cy="260" r="2.5" fill="#e0f2fe"/>
+        <ellipse cx="720" cy="450" rx="520" ry="140" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="14 10" opacity="0.4"/>
+      </g>
+    </svg>
+
+    <!-- Kanvas Zarah HD (Titisan Air, Kilauan Cahaya & Kabus Hidup) -->
+    <canvas id="bgFxCanvas" class="absolute inset-0 w-full h-full"></canvas>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- BAR HUD ATAS (Dipaparkan semasa bermain / peta misi)           -->
+  <!-- ============================================================== -->
+  <header id="gameHud" class="hidden sticky top-0 z-30 w-full px-3 sm:px-6 pt-3 pb-2">
+    <div class="max-w-5xl mx-auto bg-white/95 backdrop-blur-md rounded-2xl border-4 border-sky-200 shadow-lg px-3 sm:px-5 py-2.5 flex flex-wrap items-center justify-between gap-2.5">
+      <!-- Kiri: Menu & Jeda -->
+      <div class="flex items-center gap-2">
+        <button type="button" onclick="openPauseModal()" title="Jeda Permainan" class="btn-game btn-white px-3 py-2 rounded-xl text-sky-800 font-bold text-sm flex items-center gap-1.5">
+          <i class="fa-solid fa-pause text-heroOrange"></i>
+          <span class="hidden sm:inline">Jeda</span>
+        </button>
+        <button type="button" onclick="showScreen('menu')" title="Menu Utama" class="btn-game btn-white px-3 py-2 rounded-xl text-sky-800 font-bold text-sm flex items-center gap-1.5">
+          <i class="fa-solid fa-house text-skyAqua"></i>
+          <span class="hidden md:inline">Menu</span>
+        </button>
+      </div>
+
+      <!-- Tengah: Bar Kemajuan & 6 Kristal Ilmu -->
+      <div class="flex-1 min-w-[190px] max-w-md mx-auto">
+        <div class="flex items-center justify-between text-xs font-extrabold text-sky-900 mb-1">
+          <span id="hudStageLabel">Misi Planet Wuduk</span>
+          <span id="hudCrystalCount" class="text-heroOrange">0 / 6 Kristal</span>
+        </div>
+        <div class="w-full h-3 bg-sky-100 rounded-full overflow-hidden border border-sky-300">
+          <div id="hudProgressBar" class="h-full bg-gradient-to-r from-skyAqua via-leafGreen to-sunYellow rounded-full transition-all duration-500" style="width: 0%;"></div>
+        </div>
+        <!-- Ikon 6 Kristal -->
+        <div id="hudCrystalsRow" class="flex items-center justify-center gap-1.5 mt-1.5"></div>
+      </div>
+
+      <!-- Kanan: Markah, Bintang, Muzik & Tetapan -->
+      <div class="flex items-center gap-2">
+        <div class="px-3 py-1.5 rounded-xl bg-amber-100 border-2 border-amber-300 flex items-center gap-1.5 text-amber-800 font-extrabold text-sm">
+          <i class="fa-solid fa-star text-amber-500"></i>
+          <span id="hudScore">0</span>
+        </div>
+        <button id="hudMuteBtn" type="button" onclick="toggleMute()" title="Hidup/Matikan Muzik" class="btn-game btn-blue px-3 py-2 rounded-xl text-white font-bold text-sm">
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
+        <button type="button" onclick="openAudioModal()" title="Tetapan Audio" class="btn-game btn-white px-3 py-2 rounded-xl text-sky-800 font-bold text-sm">
+          <i class="fa-solid fa-gear"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- KANDUNGAN UTAMA APLIKASI                                       -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-5xl mx-auto px-3 sm:px-6 py-4 sm:py-6 flex flex-col items-center justify-center min-h-[calc(100vh-88px)]">
+
+    <!-- ============================================================ -->
+    <!-- SKRIN 1: HALAMAN UTAMA (MAIN MENU)                           -->
+    <!-- ============================================================ -->
+    <section id="screen-menu" class="game-screen w-full flex flex-col items-center text-center anim-pop">
+      <!-- Lencana Tema -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 border-2 border-sky-300 text-sky-800 font-extrabold text-xs sm:text-sm shadow-md mb-3">
+        <i class="fa-solid fa-droplet text-skyAqua"></i>
+        <span>PENDIDIKAN ISLAM &bull; IBADAH &bull; LANGKAH-LANGKAH BERWUDUK</span>
+      </div>
+
+      <!-- Tajuk Besar -->
+      <h1 class="font-cartoon text-4xl sm:text-6xl font-bold text-white title-stroke tracking-wide leading-tight">
+        MISI WUDUK BOBOIBOY
+      </h1>
+      <p class="mt-1 font-cartoon text-lg sm:text-2xl font-bold text-yellow-200 drop-shadow-[0_3px_0_rgba(3,105,161,0.8)]">
+        KUASA AIR PENYELAMAT
+      </p>
+
+      <!-- Pentas Ilustrasi BoBoiBoy & Rakan-rakan (Yaya, Ying, Gopal, Fang) -->
+      <div class="w-full max-w-3xl mt-4 mb-5 bg-white/30 backdrop-blur-sm rounded-3xl border-4 border-white/70 p-4 sm:p-5 shadow-xl relative overflow-hidden">
+        <div class="flex items-end justify-center gap-2 sm:gap-5 flex-wrap sm:flex-nowrap" id="menuCharactersStage">
+          <!-- Dijana melalui SVG vektor kartun yang ceria dalam JS -->
+        </div>
+        <div class="mt-3 inline-flex items-center gap-2 bg-sky-900/80 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold">
+          <i class="fa-solid fa-gem text-sky-300"></i>
+          <span>Kumpulkan 6 Kristal Ilmu untuk Menyelamatkan Planet Wuduk!</span>
+        </div>
+      </div>
+
+      <!-- Butang Menu Utama -->
+      <div class="w-full max-w-xl grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+        <button type="button" onclick="startIntroSequence()" class="sm:col-span-2 btn-game btn-orange text-white font-cartoon text-2xl sm:text-3xl py-4 px-8 rounded-2xl flex items-center justify-center gap-3">
+          <i class="fa-solid fa-play"></i>
+          <span>MULA PERMAINAN</span>
+        </button>
+
+        <button type="button" onclick="playClick(); showScreen('manual')" class="btn-game btn-blue text-white font-cartoon text-lg sm:text-xl py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2.5">
+          <i class="fa-solid fa-book-open"></i>
+          <span>MANUAL PERMAINAN</span>
+        </button>
+
+        <button type="button" onclick="playClick(); showScreen('about')" class="btn-game btn-green text-white font-cartoon text-lg sm:text-xl py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2.5">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>TENTANG PERMAINAN</span>
+        </button>
+
+        <button type="button" onclick="playClick(); openAudioModal()" class="sm:col-span-2 btn-game btn-white text-sky-900 font-cartoon text-lg py-3 px-5 rounded-2xl flex items-center justify-center gap-2.5">
+          <i class="fa-solid fa-music text-heroOrange"></i>
+          <span>TETAPAN AUDIO</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SKRIN 2: ANIMASI PEMBUKAAN & DIALOG BOBOIBOY                 -->
+    <!-- ============================================================ -->
+    <section id="screen-intro" class="game-screen hidden w-full max-w-3xl anim-pop">
+      <div class="cartoon-card rounded-3xl p-6 sm:p-8 text-center relative overflow-hidden">
+        <!-- Latar Langit Mini -->
+        <div class="rounded-2xl bg-gradient-to-b from-sky-500 via-sky-300 to-emerald-400 p-5 sm:p-6 mb-5 border-4 border-sky-200 relative overflow-hidden">
+          <div class="flex items-center justify-center gap-4 sm:gap-6">
+            <div id="introBoBoiBoy" class="anim-float"></div>
+            <div class="hidden sm:block anim-float-fast" id="introCrystal"></div>
+          </div>
+          <div class="mt-3 bg-sky-950/75 text-sky-100 rounded-xl px-4 py-2 text-xs sm:text-sm font-bold inline-block">
+            <i class="fa-solid fa-triangle-exclamation text-yellow-300 mr-1"></i>
+            Amaran Planet Wuduk: Sumber air bersih semakin berkurangan akibat gangguan kuasa jahat!
+          </div>
+        </div>
+
+        <!-- Kotak Dialog Kartun BoBoiBoy -->
+        <div class="bg-sky-50 border-4 border-sky-300 rounded-2xl p-5 text-left relative mb-6">
+          <span class="inline-block px-3 py-1 rounded-full bg-heroOrange text-white font-cartoon text-sm mb-2">
+            BoBoiBoy
+          </span>
+          <p class="text-lg sm:text-2xl font-extrabold text-sky-950 leading-relaxed">
+            &ldquo;Adakah kamu sudah bersedia untuk membantu kami menguasai ilmu berwuduk? Jom kita mulakan misi ini!&rdquo;
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <button type="button" onclick="playClick(); showScreen('menu')" class="btn-game btn-white text-sky-900 font-cartoon text-lg py-3 px-6 rounded-2xl flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>KEMBALI</span>
+          </button>
+          <button type="button" onclick="playClick(); showScreen('briefing')" class="btn-game btn-green text-white font-cartoon text-xl py-3.5 px-8 rounded-2xl flex items-center gap-2">
+            <span>TERUSKAN</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SKRIN 2B: NOTA RINGKAS 6 RUKUN WUDUK (MAZHAB SYAFIE)         -->
+    <!-- ============================================================ -->
+    <section id="screen-briefing" class="game-screen hidden w-full max-w-4xl anim-pop">
+      <div class="cartoon-card rounded-3xl p-5 sm:p-7">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <div>
+            <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 font-extrabold text-xs uppercase">Bekalan Ilmu Wira</span>
+            <h2 class="font-cartoon text-2xl sm:text-3xl text-sky-900 mt-1">6 Rukun Wuduk (Mazhab Syafie)</h2>
+          </div>
+          <span class="px-3 py-1.5 rounded-xl bg-amber-100 border-2 border-amber-300 text-amber-900 text-xs sm:text-sm font-extrabold">
+            <i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> Baca sebelum mula!
+          </span>
+        </div>
+
+        <!-- Kotak Lafaz Niat -->
+        <div class="bg-gradient-to-r from-sky-600 to-sky-500 text-white rounded-2xl p-4 sm:p-5 mb-4 border-2 border-sky-300 text-center">
+          <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-sky-100">Lafaz Niat Wuduk (Rukun 1 &mdash; Berniat ketika mula membasuh muka)</p>
+          <p class="font-arabic text-2xl sm:text-4xl font-bold my-2 leading-loose" dir="rtl">
+            نَوَيْتُ رَفْعَ الْحَدَثِ الْأَصْغَرِ لِلَّهِ تَعَالَى
+          </p>
+          <p class="text-sm sm:text-base font-bold text-yellow-200">
+            Maksud: &ldquo;Sahaja aku mengangkat hadas kecil kerana Allah Taala.&rdquo;
+          </p>
+        </div>
+
+        <!-- Grid 6 Rukun -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+          <div class="p-3.5 rounded-2xl bg-sky-50 border-2 border-sky-200">
+            <span class="inline-block px-2.5 py-0.5 rounded-full bg-heroOrange text-white font-cartoon text-xs mb-1">Rukun 1</span>
+            <h3 class="font-cartoon text-lg text-sky-950">Niat</h3>
+            <p class="text-xs sm:text-sm text-slate-700 font-semibold">Berniat di dalam hati ketika air mula mengenai muka.</p>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-sky-50 border-2 border-sky-200">
+            <span class="inline-block px-2.5 py-0.5 rounded-full bg-heroOrange text-white font-cartoon text-xs mb-1">Rukun 2</span>
+            <h3 class="font-cartoon text-lg text-sky-950">Membasuh Muka</h3>
+            <p class="text-xs sm:text-sm text-slate-700 font-semibold">Dari tempat tumbuh rambut di dahi hingga bawah dagu &amp; antara dua telinga.</p>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-sky-50 border-2 border-sky-200">
+            <span class="inline-block px-2.5 py-0.5 rounded-full bg-heroOrange text-white font-cartoon text-xs mb-1">Rukun 3</span>
+            <h3 class="font-cartoon text-lg text-sky-950">Membasuh Tangan</h3>
+            <p class="text-xs sm:text-sm text-slate-700 font-semibold">Kedua-dua tangan hingga ke siku (siku wajib termasuk).</p>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-emerald-50 border-2 border-emerald-200">
+            <span class="inline-block px-2.5 py-0.5 rounded-full bg-leafGreen text-white font-cartoon text-xs mb-1">Rukun 4</span>
+            <h3 class="font-cartoon text-lg text-sky-950">Menyapu Kepala</h3>
+            <p class="text-xs sm:text-sm text-slate-700 font-semibold">Menyapu air pada sebahagian kepala (menyapu berbeza daripada membasuh).</p>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-emerald-50 border-2 border-emerald-200">
+            <span class="inline-block px-2.5 py-0.5 rounded-full bg-leafGreen text-white font-cartoon text-xs mb-1">Rukun 5</span>
+            <h3 class="font-cartoon text-lg text-sky-950">Membasuh Kaki</h3>
+            <p class="text-xs sm:text-sm text-slate-700 font-semibold">Kedua-dua kaki hingga ke buku lali (buku lali wajib termasuk).</p>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-emerald-50 border-2 border-emerald-200">
+            <span class="inline-block px-2.5 py-0.5 rounded-full bg-leafGreen text-white font-cartoon text-xs mb-1">Rukun 6</span>
+            <h3 class="font-cartoon text-lg text-sky-950">Tertib</h3>
+            <p class="text-xs sm:text-sm text-slate-700 font-semibold">Melakukan kesemua rukun mengikut susunan yang betul secara berurutan.</p>
+          </div>
+        </div>
+
+        <!-- Nota Beza Rukun vs Sunat -->
+        <div class="p-3.5 rounded-2xl bg-amber-50 border-2 border-amber-300 text-amber-950 text-xs sm:text-sm font-bold mb-5 flex items-start gap-2.5">
+          <i class="fa-solid fa-circle-exclamation text-heroOrange text-lg mt-0.5"></i>
+          <span><strong>Ingat Beza Rukun &amp; Sunat:</strong> Membaca Bismillah, berkumur, menyapu telinga, mendahulukan anggota kanan dan membasuh sebanyak <strong>tiga kali</strong> adalah <strong>PERKARA SUNAT</strong>, bukan rukun.</span>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <button type="button" onclick="playClick(); showScreen('intro')" class="btn-game btn-white text-sky-900 font-cartoon text-lg py-3 px-5 rounded-2xl flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>KEMBALI</span>
+          </button>
+          <button type="button" onclick="playClick(); openMapScreen()" class="btn-game btn-orange text-white font-cartoon text-xl py-3.5 px-8 rounded-2xl flex items-center gap-2">
+            <span>PERGI KE PETA MISI</span>
+            <i class="fa-solid fa-map-location-dot"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SKRIN 3: MANUAL PERMAINAN (WAJIB ADA)                        -->
+    <!-- ============================================================ -->
+    <section id="screen-manual" class="game-screen hidden w-full max-w-4xl anim-pop">
+      <div class="cartoon-card rounded-3xl p-6 sm:p-8">
+        <div class="flex items-center justify-between gap-3 mb-5">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-sky-100 border-2 border-sky-300 flex items-center justify-center text-skyAqua text-2xl anim-float-fast">
+              <i class="fa-solid fa-book-open-reader"></i>
+            </div>
+            <div>
+              <h2 class="font-cartoon text-2xl sm:text-3xl text-sky-900">MANUAL PERMAINAN</h2>
+              <p class="text-xs sm:text-sm font-bold text-slate-500">Panduan lengkap untuk menjadi Wira Wuduk!</p>
+            </div>
+          </div>
+          <button type="button" onclick="playClick(); showScreen('menu')" class="btn-game btn-white px-4 py-2 rounded-xl text-sky-900 font-bold text-sm">
+            <i class="fa-solid fa-arrow-left mr-1"></i> Kembali
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+          <!-- Cara Bermain -->
+          <div class="bg-sky-50 rounded-2xl p-5 border-2 border-sky-200">
+            <h3 class="font-cartoon text-xl text-sky-900 mb-3 flex items-center gap-2">
+              <i class="fa-solid fa-gamepad text-heroOrange"></i> Cara Bermain
+            </h3>
+            <ol class="space-y-2.5 text-sm sm:text-base font-bold text-slate-700">
+              <li class="flex items-start gap-2.5"><span class="w-6 h-6 rounded-full bg-skyAqua text-white text-xs flex items-center justify-center shrink-0 mt-0.5">1</span><span>Tekan butang <strong>MULA PERMAINAN</strong> untuk memulakan misi.</span></li>
+              <li class="flex items-start gap-2.5"><span class="w-6 h-6 rounded-full bg-skyAqua text-white text-xs flex items-center justify-center shrink-0 mt-0.5">2</span><span>Baca penerangan dan arahan yang diberikan pada setiap peringkat.</span></li>
+              <li class="flex items-start gap-2.5"><span class="w-6 h-6 rounded-full bg-skyAqua text-white text-xs flex items-center justify-center shrink-0 mt-0.5">3</span><span>Klik, pilih atau seret jawapan mengikut arahan permainan.</span></li>
+              <li class="flex items-start gap-2.5"><span class="w-6 h-6 rounded-full bg-skyAqua text-white text-xs flex items-center justify-center shrink-0 mt-0.5">4</span><span>Selesaikan setiap cabaran untuk mendapatkan <strong>kristal ilmu</strong>.</span></li>
+              <li class="flex items-start gap-2.5"><span class="w-6 h-6 rounded-full bg-skyAqua text-white text-xs flex items-center justify-center shrink-0 mt-0.5">5</span><span>Jawab soalan dengan betul untuk memperoleh markah dan ganjaran.</span></li>
+              <li class="flex items-start gap-2.5"><span class="w-6 h-6 rounded-full bg-skyAqua text-white text-xs flex items-center justify-center shrink-0 mt-0.5">6</span><span>Lengkapkan keenam-enam cabaran untuk menamatkan misi.</span></li>
+              <li class="flex items-start gap-2.5"><span class="w-6 h-6 rounded-full bg-heroOrange text-white text-xs flex items-center justify-center shrink-0 mt-0.5">7</span><span>Kumpulkan sebanyak mungkin bintang dan capai gelaran <strong>Wira Wuduk</strong>!</span></li>
+            </ol>
+          </div>
+
+          <!-- Kawalan Permainan -->
+          <div class="bg-emerald-50 rounded-2xl p-5 border-2 border-emerald-200 flex flex-col justify-between">
+            <div>
+              <h3 class="font-cartoon text-xl text-emerald-900 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-sliders text-leafGreen"></i> Kawalan Permainan
+              </h3>
+              <ul class="space-y-3 text-sm sm:text-base font-bold text-slate-700">
+                <li class="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-emerald-200">
+                  <span class="w-9 h-9 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center shrink-0"><i class="fa-solid fa-computer-mouse"></i></span>
+                  <span><strong>Tetikus:</strong> Klik atau seret objek untuk menjawab soalan.</span>
+                </li>
+                <li class="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-emerald-200">
+                  <span class="w-9 h-9 rounded-lg bg-amber-100 text-heroOrange flex items-center justify-center shrink-0"><i class="fa-solid fa-hand-pointer"></i></span>
+                  <span><strong>Skrin sentuh:</strong> Sentuh dan seret objek menggunakan jari.</span>
+                </li>
+                <li class="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-emerald-200">
+                  <span class="w-9 h-9 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0"><i class="fa-solid fa-keyboard"></i></span>
+                  <span><strong>Papan kekunci:</strong> Gunakan kekunci yang bersesuaian sekiranya diperlukan.</span>
+                </li>
+                <li class="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-emerald-200">
+                  <span class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0"><i class="fa-solid fa-music"></i></span>
+                  <span><strong>Butang muzik:</strong> Hidupkan atau matikan muzik latar.</span>
+                </li>
+                <li class="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-emerald-200">
+                  <span class="w-9 h-9 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-rotate-right"></i></span>
+                  <span><strong>Butang ulang:</strong> Ulang permainan dari awal.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <button type="button" onclick="playClick(); showScreen('menu')" class="btn-game btn-white text-sky-900 font-cartoon text-lg py-3 px-6 rounded-2xl">
+            <i class="fa-solid fa-house mr-1"></i> MENU UTAMA
+          </button>
+          <button type="button" onclick="startIntroSequence()" class="btn-game btn-orange text-white font-cartoon text-xl py-3 px-8 rounded-2xl">
+            <i class="fa-solid fa-play mr-1"></i> MULA PERMAINAN
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SKRIN 4: TENTANG PERMAINAN                                   -->
+    <!-- ============================================================ -->
+    <section id="screen-about" class="game-screen hidden w-full max-w-3xl anim-pop">
+      <div class="cartoon-card rounded-3xl p-6 sm:p-8 text-center">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-emerald-100 border-2 border-emerald-300 text-leafGreen flex items-center justify-center text-3xl mb-3">
+          <i class="fa-solid fa-droplet"></i>
+        </div>
+        <h2 class="font-cartoon text-3xl text-sky-900 mb-2">TENTANG PERMAINAN</h2>
+        <p class="text-slate-700 font-bold text-sm sm:text-base leading-relaxed mb-5">
+          <strong>Misi Wuduk BoBoiBoy: Kuasa Air Penyelamat</strong> ialah permainan pendidikan digital interaktif bagi mata pelajaran <strong>Pendidikan Islam (Bidang Ibadah)</strong> sekolah rendah. Murid akan mengembara bersama BoBoiBoy, Yaya, Ying, Gopal dan Fang untuk menguasai <strong>Enam Rukun Wuduk</strong> menurut <strong>Mazhab Syafie</strong> dengan cara yang menyeronokkan!
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left mb-6">
+          <div class="p-4 rounded-2xl bg-sky-50 border-2 border-sky-200">
+            <h3 class="font-cartoon text-lg text-sky-900 mb-1"><i class="fa-solid fa-bullseye text-heroOrange mr-1"></i> Objektif Pembelajaran</h3>
+            <p class="text-xs sm:text-sm font-semibold text-slate-700">Mengenal pasti, menyusun urutan dan membezakan enam rukun wuduk serta perkara sunat wuduk dengan tepat.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-200">
+            <h3 class="font-cartoon text-lg text-emerald-900 mb-1"><i class="fa-solid fa-trophy text-amber-500 mr-1"></i> Tahap Pencapaian</h3>
+            <p class="text-xs sm:text-sm font-semibold text-slate-700">0–49%: Anak Didik Wuduk &bull; 50–79%: Pejuang Wuduk &bull; 80–99%: Wira Wuduk &bull; 100%: Wira Wuduk Terhebat!</p>
+          </div>
+        </div>
+
+        <button type="button" onclick="playClick(); showScreen('menu')" class="btn-game btn-blue text-white font-cartoon text-lg py-3 px-8 rounded-2xl">
+          <i class="fa-solid fa-arrow-left mr-1"></i> KEMBALI KE MENU UTAMA
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SKRIN 5: PETA MISI PLANET WUDUK (6 PERINGKAT)                -->
+    <!-- ============================================================ -->
+    <section id="screen-map" class="game-screen hidden w-full max-w-5xl anim-pop">
+      <div class="cartoon-card rounded-3xl p-5 sm:p-7">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <div>
+            <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 font-extrabold text-xs uppercase">Peta Pengembaraan</span>
+            <h2 class="font-cartoon text-2xl sm:text-3xl text-sky-900 mt-1">Planet Wuduk: 6 Cabaran Kristal</h2>
+          </div>
+          <button type="button" onclick="playClick(); showScreen('briefing')" class="btn-game btn-white px-4 py-2 rounded-xl text-sky-800 font-bold text-xs sm:text-sm flex items-center gap-1.5">
+            <i class="fa-solid fa-book-quran text-leafGreen"></i>
+            <span>Ulang Kaji 6 Rukun</span>
+          </button>
+        </div>
+
+        <div id="levelMapGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
+          <!-- Kad 6 Peringkat dijana secara dinamik -->
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t-2 border-sky-100">
+          <button type="button" onclick="playClick(); showScreen('menu')" class="btn-game btn-white text-sky-900 font-cartoon text-base py-2.5 px-5 rounded-xl">
+            <i class="fa-solid fa-house mr-1"></i> MENU UTAMA
+          </button>
+          <button id="mapVictoryBtn" type="button" onclick="playClick(); showVictoryScreen()" class="hidden btn-game btn-orange text-white font-cartoon text-lg py-3 px-6 rounded-xl anim-glow">
+            <i class="fa-solid fa-crown mr-1"></i> LIHAT SKRIN KEMENANGAN!
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SKRIN 6: PENTAS PERMAINAN AKTIF (LEVEL 1 HINGGA LEVEL 6)     -->
+    <!-- ============================================================ -->
+    <section id="screen-play" class="game-screen hidden w-full max-w-4xl anim-pop">
+      <div class="cartoon-card rounded-3xl p-5 sm:p-7 relative overflow-hidden">
+        <!-- Kepala Peringkat & Watak Panduan -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b-2 border-sky-100">
+          <div class="flex items-center gap-3">
+            <div id="playCharAvatar" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-sky-100 border-3 border-sky-300 flex items-center justify-center shrink-0 overflow-hidden p-1 anim-float-fast"></div>
+            <div>
+              <span id="playLevelBadge" class="inline-block px-3 py-0.5 rounded-full bg-heroOrange text-white font-cartoon text-xs uppercase">Level 1</span>
+              <h2 id="playLevelTitle" class="font-cartoon text-xl sm:text-2xl text-sky-950 leading-tight mt-0.5">Tajuk Peringkat</h2>
+              <p id="playLevelSub" class="text-xs sm:text-sm font-bold text-sky-700">Arahan ringkas</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="playStepCounter" class="px-3.5 py-1.5 rounded-xl bg-sky-100 text-sky-900 font-extrabold text-sm border-2 border-sky-200">
+              1 / 6
+            </span>
+          </div>
+        </div>
+
+        <!-- Kawasan Interaktif Peringkat -->
+        <div id="playStageContent" class="min-h-[300px]">
+          <!-- Kandungan mekanik setiap peringkat dirender di sini -->
+        </div>
+
+        <!-- Kotak Maklum Balas & Butang Navigasi Peringkat -->
+        <div id="playFeedbackBox" class="hidden mt-5 rounded-2xl p-4 border-3 font-bold text-sm sm:text-base anim-pop"></div>
+
+        <div class="mt-5 pt-4 border-t-2 border-sky-100 flex flex-wrap items-center justify-between gap-3">
+          <button type="button" onclick="playClick(); openMapScreen()" class="btn-game btn-white text-sky-900 font-cartoon text-base py-2.5 px-5 rounded-xl flex items-center gap-1.5">
+            <i class="fa-solid fa-map"></i>
+            <span>KEMBALI KE PETA</span>
+          </button>
+
+          <div class="flex items-center gap-2.5">
+            <button id="playRetryBtn" type="button" onclick="playClick(); retryCurrentLevel()" class="hidden btn-game btn-blue text-white font-cartoon text-base py-2.5 px-5 rounded-xl flex items-center gap-1.5">
+              <i class="fa-solid fa-rotate-right"></i>
+              <span>ULANGI</span>
+            </button>
+            <button id="playNextBtn" type="button" class="hidden btn-game btn-green text-white font-cartoon text-lg py-2.5 px-7 rounded-xl flex items-center gap-2">
+              <span>SETERUSNYA</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SKRIN 7: TAMAT PERINGKAT (GANJARAN KRISTAL ILMU)             -->
+    <!-- ============================================================ -->
+    <section id="screen-level-complete" class="game-screen hidden w-full max-w-2xl anim-pop">
+      <div class="cartoon-card rounded-3xl p-6 sm:p-8 text-center">
+        <div class="inline-block px-4 py-1 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-xs sm:text-sm mb-2">
+          CABARAN BERJAYA DISELESAIKAN!
+        </div>
+        <h2 id="lcTitle" class="font-cartoon text-3xl sm:text-4xl text-sky-900">SYABAS, HEBAT!</h2>
+
+        <div class="my-5 flex items-center justify-center gap-6">
+          <div id="lcAvatar" class="anim-float"></div>
+          <div id="lcCrystal" class="anim-glow"></div>
+        </div>
+
+        <div id="lcStars" class="flex items-center justify-center gap-2 text-4xl text-amber-400 mb-3"></div>
+        <p id="lcMessage" class="text-slate-700 font-extrabold text-base sm:text-lg mb-5">
+          Kamu berjaya memperoleh Kristal Ilmu!
+        </p>
+
+        <div class="grid grid-cols-2 gap-3 max-w-sm mx-auto mb-6">
+          <div class="p-3 rounded-2xl bg-sky-50 border-2 border-sky-200">
+            <p class="text-xs font-bold text-slate-500">Markah Peringkat</p>
+            <p id="lcScore" class="font-cartoon text-2xl text-sky-900">+0</p>
+          </div>
+          <div class="p-3 rounded-2xl bg-amber-50 border-2 border-amber-200">
+            <p class="text-xs font-bold text-slate-500">Ketepatan</p>
+            <p id="lcAccuracy" class="font-cartoon text-2xl text-heroOrange">100%</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <button type="button" onclick="playClick(); retryCurrentLevel()" class="btn-game btn-white text-sky-900 font-cartoon text-base py-3 px-5 rounded-2xl">
+            <i class="fa-solid fa-rotate-right mr-1"></i> ULANGI
+          </button>
+          <button type="button" onclick="playClick(); openMapScreen()" class="btn-game btn-blue text-white font-cartoon text-base py-3 px-5 rounded-2xl">
+            <i class="fa-solid fa-map mr-1"></i> PETA MISI
+          </button>
+          <button id="lcNextLevelBtn" type="button" class="btn-game btn-orange text-white font-cartoon text-lg py-3 px-7 rounded-2xl">
+            <span>PERINGKAT SETERUSNYA</span> <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SKRIN 8: SKRIN TAMAT PERMAINAN (KEMENANGAN AKHIR)            -->
+    <!-- ============================================================ -->
+    <section id="screen-victory" class="game-screen hidden w-full max-w-4xl anim-pop">
+      <div class="cartoon-card rounded-3xl p-6 sm:p-8 text-center relative overflow-hidden">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100 border-2 border-amber-300 text-amber-800 font-extrabold text-xs sm:text-sm mb-2">
+          <i class="fa-solid fa-crown text-amber-500"></i>
+          <span>PLANET WUDUK BERJAYA DISELAMATKAN!</span>
+        </div>
+
+        <h2 class="font-cartoon text-3xl sm:text-5xl text-sky-900 drop-shadow-sm">
+          TAHNIAH, WIRA WUDUK!
+        </h2>
+
+        <!-- Animasi BoBoiBoy & Rakan-rakan Meraikan Kemenangan -->
+        <div id="victoryCharacters" class="my-5 flex items-end justify-center gap-2 sm:gap-5 flex-wrap sm:flex-nowrap bg-gradient-to-b from-sky-100 to-emerald-100 rounded-2xl p-4 border-2 border-sky-200"></div>
+
+        <!-- 6 Kristal Ilmu Terkumpul -->
+        <div class="mb-5">
+          <p class="text-xs font-extrabold uppercase tracking-wider text-sky-800 mb-2">6 Kristal Ilmu Berjaya Dikumpulkan</p>
+          <div id="victoryCrystals" class="flex items-center justify-center flex-wrap gap-3"></div>
+        </div>
+
+        <!-- Ringkasan Prestasi -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+          <div class="p-4 rounded-2xl bg-sky-50 border-2 border-sky-200">
+            <p class="text-xs font-bold text-slate-500">Jumlah Markah</p>
+            <p id="vicTotalScore" class="font-cartoon text-3xl text-sky-900">0</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-amber-50 border-2 border-amber-200">
+            <p class="text-xs font-bold text-slate-500">Jumlah Bintang</p>
+            <p id="vicTotalStars" class="font-cartoon text-3xl text-amber-500">0 / 18</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-200">
+            <p class="text-xs font-bold text-slate-500">Gelaran Pencapaian</p>
+            <p id="vicRank" class="font-cartoon text-xl sm:text-2xl text-emerald-700 mt-1">Wira Wuduk</p>
+          </div>
+        </div>
+
+        <!-- Mesej Penutup Rasmi -->
+        <div class="bg-sky-900 text-white rounded-2xl p-5 mb-6 border-4 border-sky-400">
+          <p class="text-sm sm:text-base font-bold leading-relaxed">
+            &ldquo;Syabas! Kamu telah berjaya menguasai enam rukun wuduk. Ingatlah, wuduk yang sempurna merupakan salah satu persediaan penting sebelum menunaikan solat. Teruskan amalkan ilmu yang telah dipelajari!&rdquo;
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3.5">
+          <button type="button" onclick="playClick(); resetFullGame(true)" class="btn-game btn-orange text-white font-cartoon text-xl py-3.5 px-8 rounded-2xl flex items-center gap-2">
+            <i class="fa-solid fa-rotate-right"></i>
+            <span>MAIN SEMULA</span>
+          </button>
+          <button type="button" onclick="playClick(); showScreen('menu')" class="btn-game btn-blue text-white font-cartoon text-xl py-3.5 px-8 rounded-2xl flex items-center gap-2">
+            <i class="fa-solid fa-house"></i>
+            <span>KEMBALI KE MENU UTAMA</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- MODAL JEDA PERMAINAN (PAUSE)                                   -->
+  <!-- ============================================================== -->
+  <div id="pauseModal" class="hidden fixed inset-0 z-50 bg-sky-950/65 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="cartoon-card rounded-3xl p-6 sm:p-7 w-full max-w-md text-center anim-pop">
+      <div class="w-16 h-16 mx-auto rounded-2xl bg-amber-100 border-2 border-amber-300 text-heroOrange flex items-center justify-center text-3xl mb-3">
+        <i class="fa-solid fa-pause"></i>
+      </div>
+      <h3 class="font-cartoon text-3xl text-sky-900 mb-2">PERMAINAN DIJEDA</h3>
+      <p class="text-sm font-bold text-slate-600 mb-5">Berehat sebentar sebelum meneruskan misi menyelamatkan Planet Wuduk!</p>
+      <div class="flex flex-col gap-3">
+        <button type="button" onclick="playClick(); closePauseModal()" class="btn-game btn-green text-white font-cartoon text-xl py-3 rounded-2xl">
+          <i class="fa-solid fa-play mr-1"></i> SAMBUNG
+        </button>
+        <button type="button" onclick="playClick(); closePauseModal(); openAudioModal()" class="btn-game btn-blue text-white font-cartoon text-lg py-3 rounded-2xl">
+          <i class="fa-solid fa-volume-high mr-1"></i> TETAPAN AUDIO
+        </button>
+        <button type="button" onclick="playClick(); closePauseModal(); resetFullGame(false)" class="btn-game btn-orange text-white font-cartoon text-lg py-3 rounded-2xl">
+          <i class="fa-solid fa-rotate-right mr-1"></i> ULANGI DARI AWAL
+        </button>
+        <button type="button" onclick="playClick(); closePauseModal(); showScreen('menu')" class="btn-game btn-white text-sky-900 font-cartoon text-lg py-3 rounded-2xl">
+          <i class="fa-solid fa-house mr-1"></i> MENU UTAMA
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL TETAPAN AUDIO (MUZIK LATAR & KESAN BUNYI)                -->
+  <!-- ============================================================== -->
+  <div id="audioModal" class="hidden fixed inset-0 z-50 bg-sky-950/65 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="cartoon-card rounded-3xl p-6 sm:p-7 w-full max-w-md anim-pop">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-cartoon text-2xl text-sky-900 flex items-center gap-2">
+          <i class="fa-solid fa-music text-heroOrange"></i> TETAPAN AUDIO
+        </h3>
+        <button type="button" onclick="playClick(); closeAudioModal()" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 mb-6">
+        <!-- Kawalan Mute / Unmute -->
+        <div class="p-4 rounded-2xl bg-sky-50 border-2 border-sky-200 flex items-center justify-between">
+          <div>
+            <p class="font-cartoon text-lg text-sky-950">Muzik Latar</p>
+            <p class="text-xs font-bold text-slate-500">Instrumental pengembaraan ceria</p>
+          </div>
+          <button id="modalMuteToggle" type="button" onclick="toggleMute()" class="btn-game btn-green text-white font-cartoon text-sm px-4 py-2 rounded-xl">
+            HIDUP
+          </button>
+        </div>
+
+        <!-- Pelarasan Kelantangan Muzik -->
+        <div class="p-4 rounded-2xl bg-sky-50 border-2 border-sky-200">
+          <div class="flex justify-between text-sm font-extrabold text-sky-900 mb-2">
+            <span>Kelantangan Muzik</span>
+            <span id="bgmVolLabel">45%</span>
+          </div>
+          <input id="bgmVolSlider" type="range" min="0" max="100" value="45" oninput="setBgmVolume(this.value)" class="w-full accent-sky-600 h-2.5 bg-sky-200 rounded-lg cursor-pointer" />
+        </div>
+
+        <!-- Kesan Bunyi -->
+        <div class="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-200 flex items-center justify-between">
+          <div>
+            <p class="font-cartoon text-lg text-emerald-950">Kesan Bunyi (SFX)</p>
+            <p class="text-xs font-bold text-slate-500">Bunyi butang, air &amp; kemenangan</p>
+          </div>
+          <button id="modalSfxToggle" type="button" onclick="toggleSfx()" class="btn-game btn-green text-white font-cartoon text-sm px-4 py-2 rounded-xl">
+            HIDUP
+          </button>
+        </div>
+      </div>
+
+      <button type="button" onclick="playClick(); closeAudioModal()" class="w-full btn-game btn-blue text-white font-cartoon text-xl py-3 rounded-2xl">
+        SIMPAN &amp; TUTUP
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SKRIP UTAMA PERMAINAN (AUDIO, SVG WATAK, 6 LEVEL & GAMIFIKASI) -->
+  <!-- ============================================================== -->
+  <script>
+    /* ================================================================
+       1. ENJIN AUDIO WEB AUDIO API (MUZIK LATAR CERIA + KESAN BUNYI)
+       ================================================================ */
+    const AudioEngine = (function () {
+      let ctx = null;
+      let bgmGain = null;
+      let sfxGain = null;
+      let isMuted = false;
+      let sfxEnabled = true;
+      let bgmVolume = 0.45;
+      let loopTimer = null;
+      let isPlayingBgm = false;
+      let stepIndex = 0;
+
+      // Melodi ceria bergaya pengembaraan kartun (C Major pentatonik)
+      const melodyNotes = [
+        523.25, 659.25, 783.99, 659.25, 880.00, 783.99, 659.25, 587.33,
+        523.25, 587.33, 659.25, 783.99, 659.25, 0,      587.33, 0,
+        523.25, 659.25, 783.99, 1046.5, 880.00, 783.99, 659.25, 783.99,
+        659.25, 587.33, 523.25, 587.33, 523.25, 0,      0,      0
+      ];
+      const bassNotes = [
+        130.81, 0, 196.00, 0, 174.61, 0, 196.00, 0,
+        130.81, 0, 196.00, 0, 146.83, 0, 196.00, 0,
+        130.81, 0, 196.00, 0, 174.61, 0, 196.00, 0,
+        146.83, 0, 196.00, 0, 130.81, 0, 130.81, 0
+      ];
+
+      function ensureContext() {
+        try {
+          if (!ctx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return false;
+            ctx = new AudioCtx();
+            bgmGain = ctx.createGain();
+            sfxGain = ctx.createGain();
+            bgmGain.gain.value = isMuted ? 0 : bgmVolume * 0.22;
+            sfxGain.gain.value = sfxEnabled ? 0.35 : 0;
+            bgmGain.connect(ctx.destination);
+            sfxGain.connect(ctx.destination);
+          }
+          if (ctx.state === 'suspended') {
+            ctx.resume();
+          }
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
+
+      function playTone(freq, duration, type, targetGain, delay = 0, vol = 0.35) {
+        if (!ctx || !freq) return;
+        const now = ctx.currentTime + delay;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, now);
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(vol, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+        osc.connect(gain);
+        gain.connect(targetGain);
+        osc.start(now);
+        osc.stop(now + duration + 0.02);
+      }
+
+      function startBgm() {
+        if (!ensureContext()) return;
+        if (isPlayingBgm) return;
+        isPlayingBgm = true;
+        loopTimer = setInterval(() => {
+          if (isMuted || !ctx || ctx.state !== 'running') return;
+          const mNote = melodyNotes[stepIndex % melodyNotes.length];
+          const bNote = bassNotes[stepIndex % bassNotes.length];
+          if (mNote > 0) playTone(mNote, 0.22, 'triangle', bgmGain, 0, 0.45);
+          if (bNote > 0) playTone(bNote, 0.28, 'sine', bgmGain, 0, 0.5);
+          stepIndex++;
+        }, 235);
+      }
+
+      function setVolume(percent) {
+        bgmVolume = Math.max(0, Math.min(1, percent / 100));
+        if (bgmGain && ctx) {
+          bgmGain.gain.setTargetAtTime(isMuted ? 0 : bgmVolume * 0.22, ctx.currentTime, 0.05);
+        }
+      }
+
+      function toggleMute() {
+        ensureContext();
+        isMuted = !isMuted;
+        if (bgmGain && ctx) {
+          bgmGain.gain.setTargetAtTime(isMuted ? 0 : bgmVolume * 0.22, ctx.currentTime, 0.05);
+        }
+        return isMuted;
+      }
+
+      function toggleSfx() {
+        ensureContext();
+        sfxEnabled = !sfxEnabled;
+        if (sfxGain && ctx) {
+          sfxGain.gain.setTargetAtTime(sfxEnabled ? 0.35 : 0, ctx.currentTime, 0.03);
+        }
+        return sfxEnabled;
+      }
+
+      function playClick() {
+        if (!sfxEnabled || !ensureContext()) return;
+        playTone(620, 0.08, 'sine', sfxGain, 0, 0.35);
+        playTone(880, 0.07, 'triangle', sfxGain, 0.03, 0.22);
+      }
+
+      function playCorrect() {
+        if (!sfxEnabled || !ensureContext()) return;
+        playTone(523.25, 0.14, 'triangle', sfxGain, 0, 0.5);
+        playTone(659.25, 0.14, 'triangle', sfxGain, 0.09, 0.5);
+        playTone(783.99, 0.18, 'triangle', sfxGain, 0.18, 0.55);
+        playTone(1046.5, 0.32, 'sine', sfxGain, 0.27, 0.6);
+      }
+
+      function playWrong() {
+        if (!sfxEnabled || !ensureContext()) return;
+        playTone(300, 0.18, 'sawtooth', sfxGain, 0, 0.25);
+        playTone(220, 0.28, 'sawtooth', sfxGain, 0.14, 0.25);
+      }
+
+      function playSplash() {
+        if (!sfxEnabled || !ensureContext()) return;
+        // Kesan percikan air berbuih menggunakan arpeggio lembut
+        [440, 587, 740, 987, 1174].forEach((f, i) => {
+          playTone(f, 0.12, 'sine', sfxGain, i * 0.035, 0.32);
+        });
+      }
+
+      function playVictory() {
+        if (!sfxEnabled || !ensureContext()) return;
+        const fanfare = [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5];
+        const times = [0, 0.11, 0.22, 0.34, 0.5, 0.62];
+        fanfare.forEach((f, i) => playTone(f, 0.28, 'triangle', sfxGain, times[i], 0.55));
+      }
+
+      return {
+        startBgm,
+        setVolume,
+        toggleMute,
+        toggleSfx,
+        playClick,
+        playCorrect,
+        playWrong,
+        playSplash,
+        playVictory,
+        getState: () => ({ isMuted, sfxEnabled, bgmVolume })
+      };
+    })();
+
+    function playClick() { AudioEngine.playClick(); }
+
+    function toggleMute() {
+      const muted = AudioEngine.toggleMute();
+      const hudBtn = document.getElementById('hudMuteBtn');
+      const modalBtn = document.getElementById('modalMuteToggle');
+      if (hudBtn) {
+        hudBtn.innerHTML = muted
+          ? '<i class="fa-solid fa-volume-xmark"></i>'
+          : '<i class="fa-solid fa-volume-high"></i>';
+        hudBtn.classList.toggle('btn-red', muted);
+        hudBtn.classList.toggle('btn-blue', !muted);
+      }
+      if (modalBtn) {
+        modalBtn.textContent = muted ? 'MATI (MUTE)' : 'HIDUP';
+        modalBtn.classList.toggle('btn-red', muted);
+        modalBtn.classList.toggle('btn-green', !muted);
+      }
+    }
+
+    function toggleSfx() {
+      const enabled = AudioEngine.toggleSfx();
+      const btn = document.getElementById('modalSfxToggle');
+      if (btn) {
+        btn.textContent = enabled ? 'HIDUP' : 'MATI';
+        btn.classList.toggle('btn-green', enabled);
+        btn.classList.toggle('btn-red', !enabled);
+      }
+      if (enabled) AudioEngine.playClick();
+    }
+
+    function setBgmVolume(val) {
+      document.getElementById('bgmVolLabel').textContent = `${val}%`;
+      AudioEngine.setVolume(Number(val));
+    }
+
+    function openAudioModal() { document.getElementById('audioModal').classList.remove('hidden'); }
+    function closeAudioModal() { document.getElementById('audioModal').classList.add('hidden'); }
+    function openPauseModal() { document.getElementById('pauseModal').classList.remove('hidden'); }
+    function closePauseModal() { document.getElementById('pauseModal').classList.add('hidden'); }
+
+    /* ================================================================
+       2. ILUSTRASI SVG WATAK KARTUN HD 3D-SHADED (MIRIP SIRI BOBOIBOY)
+       ================================================================ */
+    let _svgUid = 0;
+
+    function getCharacterSVG(name, size = 96) {
+      const uid = ++_svgUid;
+      const svgs = {
+        /* BOBOIBOY ORIGINAL: Topi Dino Oren-Hitam + Jalur Kilat + Sehelai Rambut Putih + Jaket Oren-Hitam + Jam Kuasa */
+        boboiboy: `
+          <svg width="${size}" height="${size}" viewBox="0 0 140 140" fill="none" class="hd-avatar-wrap">
+            <defs>
+              <radialGradient id="bbbSkin${uid}" cx="42%" cy="35%" r="65%">
+                <stop offset="0%" stop-color="#ffedd5"/>
+                <stop offset="55%" stop-color="#fed7aa"/>
+                <stop offset="100%" stop-color="#ea9a5b"/>
+              </radialGradient>
+              <linearGradient id="bbbOrange${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fb923c"/>
+                <stop offset="55%" stop-color="#f97316"/>
+                <stop offset="100%" stop-color="#c2410c"/>
+              </linearGradient>
+              <linearGradient id="bbbDark${uid}" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#334155"/>
+                <stop offset="100%" stop-color="#0f172a"/>
+              </linearGradient>
+              <radialGradient id="bbbEye${uid}" cx="40%" cy="35%" r="65%">
+                <stop offset="0%" stop-color="#78350f"/>
+                <stop offset="60%" stop-color="#451a03"/>
+                <stop offset="100%" stop-color="#1c0a00"/>
+              </radialGradient>
+            </defs>
+            <!-- Aura Halus -->
+            <circle cx="70" cy="70" r="62" fill="#fb923c" opacity="0.14"/>
+            <!-- Leher & Jaket Oren-Hitam Ikonik -->
+            <rect x="61" y="88" width="18" height="14" rx="6" fill="#e2955a"/>
+            <path d="M35 102 C38 92 102 92 105 102 L110 132 C95 137 45 137 30 132 Z" fill="url(#bbbOrange${uid})" stroke="#7c2d12" stroke-width="2.5"/>
+            <!-- Bahagian Kolar & Panel Hitam Jaket -->
+            <path d="M52 94 L70 112 L88 94 L83 134 H57 Z" fill="url(#bbbDark${uid})"/>
+            <path d="M70 100 V134" stroke="#facc15" stroke-width="2.8"/>
+            <!-- Zip Kilat Kuning -->
+            <polygon points="69,105 74,105 71,111 75,111 68,120 70,113 66,113" fill="#fde047"/>
+            <!-- Jam Kuasa di Tangan -->
+            <circle cx="104" cy="118" r="7.5" fill="#1e293b" stroke="#facc15" stroke-width="2.5"/>
+            <circle cx="104" cy="118" r="3.5" fill="#f97316"/>
+            <!-- Telinga -->
+            <ellipse cx="38" cy="67" rx="6" ry="8.5" fill="url(#bbbSkin${uid})" stroke="#9a5528" stroke-width="2"/>
+            <ellipse cx="102" cy="67" rx="6" ry="8.5" fill="url(#bbbSkin${uid})" stroke="#9a5528" stroke-width="2"/>
+            <!-- Muka 3D Shaded -->
+            <path d="M40 58 C40 34 100 34 100 58 C100 84 86 96 70 96 C54 96 40 84 40 58 Z" fill="url(#bbbSkin${uid})" stroke="#9a5528" stroke-width="2.2"/>
+            <!-- Pipi Merah Jambu Halus -->
+            <ellipse cx="50" cy="76" rx="5.5" ry="2.8" fill="#fb7185" opacity="0.32"/>
+            <ellipse cx="90" cy="76" rx="5.5" ry="2.8" fill="#fb7185" opacity="0.32"/>
+            <!-- Rambut Coklat Gelap + Sehelai Rambut Putih Ikonik BoBoiBoy -->
+            <path d="M38 56 L45 64 L54 53 L64 62 L75 52 L85 62 L95 54 L102 58 L98 44 H42 Z" fill="#291a10"/>
+            <path d="M77 48 L85 64 L91 53 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.8"/>
+            <!-- Mata CGI Besar Ekspresif -->
+            <ellipse cx="55" cy="69" rx="7.5" ry="8.8" fill="#ffffff" stroke="#451a03" stroke-width="1.6"/>
+            <ellipse cx="85" cy="69" rx="7.5" ry="8.8" fill="#ffffff" stroke="#451a03" stroke-width="1.6"/>
+            <ellipse cx="56" cy="70" rx="5.2" ry="6.5" fill="url(#bbbEye${uid})"/>
+            <ellipse cx="84" cy="70" rx="5.2" ry="6.5" fill="url(#bbbEye${uid})"/>
+            <circle cx="54" cy="67" r="2.2" fill="#ffffff"/>
+            <circle cx="82" cy="67" r="2.2" fill="#ffffff"/>
+            <circle cx="58" cy="73" r="1" fill="#fde68a"/>
+            <circle cx="86" cy="73" r="1" fill="#fde68a"/>
+            <!-- Kening Tegas & Ceria -->
+            <path d="M47 59 Q55 56 62 59" stroke="#291a10" stroke-width="2.6" stroke-linecap="round"/>
+            <path d="M78 59 Q85 56 93 59" stroke="#291a10" stroke-width="2.6" stroke-linecap="round"/>
+            <!-- Hidung & Senyuman Yakin -->
+            <path d="M69 74 L71 76" stroke="#b46a3c" stroke-width="2" stroke-linecap="round"/>
+            <path d="M58 81 Q70 91 82 81 Q70 85 58 81 Z" fill="#ffffff" stroke="#7c2d12" stroke-width="1.8"/>
+            <!-- TOPI DINO OREN-HITAM IKONIK BOBOIBOY -->
+            <!-- Duri Dino di belakang topi -->
+            <polygon points="94,30 108,24 102,40" fill="#facc15" stroke="#7c2d12" stroke-width="2"/>
+            <polygon points="84,22 96,14 93,29" fill="#fb923c" stroke="#7c2d12" stroke-width="2"/>
+            <!-- Kubah Topi -->
+            <path d="M35 50 C34 18 106 18 105 50 Z" fill="url(#bbbOrange${uid})" stroke="#7c2d12" stroke-width="2.5"/>
+            <!-- Panel Hitam Topi -->
+            <path d="M53 24 C63 21 77 21 87 24 L90 48 H50 Z" fill="url(#bbbDark${uid})"/>
+            <!-- Visor Topi -->
+            <path d="M27 49 Q70 40 113 49 Q110 56 70 51 Q30 56 27 49 Z" fill="url(#bbbDark${uid})" stroke="#020617" stroke-width="2"/>
+            <!-- Lambang Kilat BoBoiBoy pada Topi -->
+            <polygon points="69,26 78,26 72,35 79,35 66,46 69,37 63,37" fill="#facc15" stroke="#ffffff" stroke-width="1"/>
+            <!-- Kilauan HD Topi -->
+            <path d="M44 35 Q50 26 60 25" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.55"/>
+          </svg>`,
+
+        /* BOBOIBOY AIR: Topi Biru-Cyan + Lambang Titisan Air + Mata Biru Bercahaya + Aura Air */
+        boboiboy_air: `
+          <svg width="${size}" height="${size}" viewBox="0 0 140 140" fill="none" class="hd-avatar-wrap">
+            <defs>
+              <radialGradient id="airSkin${uid}" cx="42%" cy="35%" r="65%">
+                <stop offset="0%" stop-color="#ffedd5"/>
+                <stop offset="55%" stop-color="#fed7aa"/>
+                <stop offset="100%" stop-color="#ea9a5b"/>
+              </radialGradient>
+              <linearGradient id="airBlue${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38bdf8"/>
+                <stop offset="50%" stop-color="#0284c7"/>
+                <stop offset="100%" stop-color="#075985"/>
+              </linearGradient>
+              <linearGradient id="airCyan${uid}" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#e0f2fe"/>
+                <stop offset="100%" stop-color="#38bdf8"/>
+              </linearGradient>
+              <radialGradient id="airOrb${uid}" cx="35%" cy="30%" r="70%">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="45%" stop-color="#7dd3fc"/>
+                <stop offset="100%" stop-color="#0284c7"/>
+              </radialGradient>
+            </defs>
+            <!-- Gelang Kuasa Air Bercahaya -->
+            <ellipse cx="70" cy="74" rx="58" ry="54" fill="#38bdf8" opacity="0.16"/>
+            <path d="M18 86 Q70 116 122 82" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" opacity="0.65"/>
+            <circle cx="22" cy="54" r="7" fill="url(#airOrb${uid})"/>
+            <circle cx="118" cy="48" r="6" fill="url(#airOrb${uid})"/>
+            <!-- Jaket BoBoiBoy Air Biru-Putih -->
+            <rect x="61" y="88" width="18" height="14" rx="6" fill="#e2955a"/>
+            <path d="M35 102 C38 92 102 92 105 102 L110 132 C95 137 45 137 30 132 Z" fill="url(#airBlue${uid})" stroke="#0c4a6e" stroke-width="2.5"/>
+            <path d="M50 95 L70 118 L90 95" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <path d="M70 116 V134" stroke="#7dd3fc" stroke-width="3"/>
+            <!-- Telinga & Muka -->
+            <ellipse cx="38" cy="67" rx="6" ry="8.5" fill="url(#airSkin${uid})" stroke="#9a5528" stroke-width="2"/>
+            <ellipse cx="102" cy="67" rx="6" ry="8.5" fill="url(#airSkin${uid})" stroke="#9a5528" stroke-width="2"/>
+            <path d="M40 58 C40 34 100 34 100 58 C100 84 86 96 70 96 C54 96 40 84 40 58 Z" fill="url(#airSkin${uid})" stroke="#9a5528" stroke-width="2.2"/>
+            <!-- Rambut + Sehelai Putih -->
+            <path d="M38 56 L46 65 L56 54 L65 62 L75 53 L85 63 L96 54 L102 58 L98 44 H42 Z" fill="#1e293b"/>
+            <path d="M78 49 L86 64 L92 53 Z" fill="#f8fafc"/>
+            <!-- Mata Biru Kuasa Air -->
+            <ellipse cx="55" cy="69" rx="7.5" ry="8.8" fill="#ffffff" stroke="#075985" stroke-width="1.6"/>
+            <ellipse cx="85" cy="69" rx="7.5" ry="8.8" fill="#ffffff" stroke="#075985" stroke-width="1.6"/>
+            <ellipse cx="56" cy="70" rx="5.2" ry="6.5" fill="#0284c7"/>
+            <ellipse cx="84" cy="70" rx="5.2" ry="6.5" fill="#0284c7"/>
+            <circle cx="54" cy="67" r="2.2" fill="#ffffff"/>
+            <circle cx="82" cy="67" r="2.2" fill="#ffffff"/>
+            <circle cx="57" cy="73" r="1.4" fill="#bae6fd"/>
+            <circle cx="85" cy="73" r="1.4" fill="#bae6fd"/>
+            <path d="M47 59 Q55 57 62 59" stroke="#1e293b" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M78 59 Q85 57 93 59" stroke="#1e293b" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M59 82 Q70 90 81 82" stroke="#7c2d12" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+            <!-- Topi BoBoiBoy Air -->
+            <path d="M35 50 C34 18 106 18 105 50 Z" fill="url(#airBlue${uid})" stroke="#0c4a6e" stroke-width="2.5"/>
+            <path d="M54 24 C64 21 76 21 86 24 L89 48 H51 Z" fill="#0c4a6e"/>
+            <path d="M27 49 Q70 40 113 49 Q110 56 70 51 Q30 56 27 49 Z" fill="#0369a1" stroke="#082f49" stroke-width="2"/>
+            <!-- Lambang Titisan Air Bercahaya -->
+            <path d="M70 24 C77 33 78 41 70 44 C62 41 63 33 70 24 Z" fill="url(#airCyan${uid})" stroke="#ffffff" stroke-width="1.4"/>
+            <circle cx="68" cy="37" r="1.8" fill="#ffffff"/>
+          </svg>`,
+
+        /* YAYA: Tudung Merah Jambu + Cekak Magenta + Lambang 'Y' Kuning + Pakaian Wira Merah Jambu */
+        yaya: `
+          <svg width="${size}" height="${size}" viewBox="0 0 140 140" fill="none" class="hd-avatar-wrap">
+            <defs>
+              <radialGradient id="yayaSkin${uid}" cx="45%" cy="38%" r="65%">
+                <stop offset="0%" stop-color="#fff1e6"/>
+                <stop offset="60%" stop-color="#fed7aa"/>
+                <stop offset="100%" stop-color="#e59a66"/>
+              </radialGradient>
+              <linearGradient id="yayaPink${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f9a8d4"/>
+                <stop offset="50%" stop-color="#ec4899"/>
+                <stop offset="100%" stop-color="#be185d"/>
+              </linearGradient>
+              <linearGradient id="yayaDark${uid}" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#db2777"/>
+                <stop offset="100%" stop-color="#831843"/>
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="60" fill="#f472b6" opacity="0.14"/>
+            <!-- Baju & Cape Wira Yaya -->
+            <path d="M36 102 C40 92 100 92 104 102 L110 132 C94 137 46 137 30 132 Z" fill="url(#yayaDark${uid})" stroke="#831843" stroke-width="2.5"/>
+            <path d="M52 102 L70 120 L88 102" fill="#fdf2f8"/>
+            <!-- Tudung Merah Jambu Berlapis 3D -->
+            <path d="M31 68 C30 22 110 22 109 68 L104 104 C88 114 52 114 36 104 Z" fill="url(#yayaPink${uid})" stroke="#831843" stroke-width="2.5"/>
+            <!-- Cekak / Band Tudung -->
+            <path d="M36 48 Q70 28 104 48 Q70 38 36 48 Z" fill="url(#yayaDark${uid})"/>
+            <!-- Muka Comel -->
+            <ellipse cx="70" cy="68" rx="26" ry="27" fill="url(#yayaSkin${uid})" stroke="#be185d" stroke-width="2"/>
+            <ellipse cx="52" cy="76" rx="5" ry="2.6" fill="#fb7185" opacity="0.38"/>
+            <ellipse cx="88" cy="76" rx="5" ry="2.6" fill="#fb7185" opacity="0.38"/>
+            <!-- Mata Besar Mesra + Bulu Mata -->
+            <ellipse cx="58" cy="67" rx="6.8" ry="8" fill="#ffffff" stroke="#451a03" stroke-width="1.5"/>
+            <ellipse cx="82" cy="67" rx="6.8" ry="8" fill="#ffffff" stroke="#451a03" stroke-width="1.5"/>
+            <ellipse cx="59" cy="68" rx="4.6" ry="5.8" fill="#5c2808"/>
+            <ellipse cx="81" cy="68" rx="4.6" ry="5.8" fill="#5c2808"/>
+            <circle cx="57" cy="65" r="2" fill="#ffffff"/><circle cx="79" cy="65" r="2" fill="#ffffff"/>
+            <path d="M51 60 L54 62 M89 60 L86 62" stroke="#451a03" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M61 81 Q70 89 79 81" stroke="#831843" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <!-- Lencana 'Y' Kuning Yaya -->
+            <circle cx="70" cy="34" r="9" fill="#facc15" stroke="#831843" stroke-width="2"/>
+            <path d="M66 30 L70 34.5 L74 30 M70 34.5 V39" stroke="#831843" stroke-width="2.2" stroke-linecap="round"/>
+            <!-- Kilauan Tudung -->
+            <path d="M44 42 Q52 32 62 31" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+          </svg>`,
+
+        /* YING: Rambut Tocang Dua + Cermin Mata Bulat Biru + Jaket Kuning-Biru */
+        ying: `
+          <svg width="${size}" height="${size}" viewBox="0 0 140 140" fill="none" class="hd-avatar-wrap">
+            <defs>
+              <radialGradient id="yingSkin${uid}" cx="45%" cy="38%" r="65%">
+                <stop offset="0%" stop-color="#fff4e6"/>
+                <stop offset="60%" stop-color="#fde0c2"/>
+                <stop offset="100%" stop-color="#e7a676"/>
+              </radialGradient>
+              <linearGradient id="yingYellow${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fef08a"/>
+                <stop offset="55%" stop-color="#facc15"/>
+                <stop offset="100%" stop-color="#ca8a04"/>
+              </linearGradient>
+              <linearGradient id="yingHair${uid}" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#334155"/>
+                <stop offset="100%" stop-color="#0f172a"/>
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="60" fill="#facc15" opacity="0.16"/>
+            <!-- Tocang Rambut Dua di Kiri & Kanan -->
+            <circle cx="28" cy="54" r="15" fill="url(#yingHair${uid})" stroke="#020617" stroke-width="2"/>
+            <circle cx="112" cy="54" r="15" fill="url(#yingHair${uid})" stroke="#020617" stroke-width="2"/>
+            <rect x="35" y="47" width="8" height="14" rx="4" fill="#0ea5e9" stroke="#0369a1" stroke-width="1.5"/>
+            <rect x="97" y="47" width="8" height="14" rx="4" fill="#0ea5e9" stroke="#0369a1" stroke-width="1.5"/>
+            <!-- Jaket Kuning-Biru Ying -->
+            <rect x="61" y="88" width="18" height="14" rx="6" fill="#e5a070"/>
+            <path d="M36 102 C40 92 100 92 104 102 L109 132 C94 137 46 137 31 132 Z" fill="url(#yingYellow${uid})" stroke="#854d0e" stroke-width="2.5"/>
+            <path d="M56 95 L70 112 L84 95" fill="#0284c7"/>
+            <path d="M70 110 V134" stroke="#0284c7" stroke-width="3"/>
+            <!-- Muka & Rambut Depan -->
+            <path d="M40 58 C40 30 100 30 100 58 C100 84 86 96 70 96 C54 96 40 84 40 58 Z" fill="url(#yingSkin${uid})" stroke="#9a5528" stroke-width="2.2"/>
+            <path d="M38 56 C38 24 102 24 102 56 C90 44 50 44 38 56 Z" fill="url(#yingHair${uid})"/>
+            <path d="M52 38 Q70 32 88 38" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+            <!-- Mata & Cermin Mata Bulat Ikonik Ying -->
+            <circle cx="56" cy="68" r="11" fill="#e0f2fe" fill-opacity="0.55" stroke="#0284c7" stroke-width="3"/>
+            <circle cx="84" cy="68" r="11" fill="#e0f2fe" fill-opacity="0.55" stroke="#0284c7" stroke-width="3"/>
+            <line x1="67" y1="68" x2="73" y2="68" stroke="#0284c7" stroke-width="3"/>
+            <circle cx="56" cy="69" r="4.8" fill="#1e293b"/><circle cx="84" cy="69" r="4.8" fill="#1e293b"/>
+            <circle cx="54.5" cy="67" r="1.8" fill="#ffffff"/><circle cx="82.5" cy="67" r="1.8" fill="#ffffff"/>
+            <path d="M50 61 L54 64" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+            <path d="M78 61 L82 64" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+            <path d="M59 82 Q70 91 81 82" stroke="#854d0e" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+          </svg>`,
+
+        /* GOPAL: Kulit Sawo Matang 3D + Wajah Bulat Ceria + Vest Hijau-Kuning */
+        gopal: `
+          <svg width="${size}" height="${size}" viewBox="0 0 140 140" fill="none" class="hd-avatar-wrap">
+            <defs>
+              <radialGradient id="gopalSkin${uid}" cx="42%" cy="34%" r="68%">
+                <stop offset="0%" stop-color="#e5a066"/>
+                <stop offset="55%" stop-color="#b46932"/>
+                <stop offset="100%" stop-color="#7c3f18"/>
+              </radialGradient>
+              <linearGradient id="gopalGreen${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#4ade80"/>
+                <stop offset="55%" stop-color="#16a34a"/>
+                <stop offset="100%" stop-color="#14532d"/>
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="60" fill="#22c55e" opacity="0.15"/>
+            <!-- Badan & Vest Hijau-Kuning Gopal -->
+            <path d="M28 102 C34 90 106 90 112 102 L117 132 C98 138 42 138 23 132 Z" fill="url(#gopalGreen${uid})" stroke="#14532d" stroke-width="2.5"/>
+            <path d="M52 94 H88 L82 135 H58 Z" fill="#facc15"/>
+            <path d="M62 94 H78 L75 135 H65 Z" fill="#1e293b"/>
+            <!-- Telinga & Muka Bulat Ceria -->
+            <ellipse cx="34" cy="68" rx="6.5" ry="9" fill="url(#gopalSkin${uid})" stroke="#5c2808" stroke-width="2"/>
+            <ellipse cx="106" cy="68" rx="6.5" ry="9" fill="url(#gopalSkin${uid})" stroke="#5c2808" stroke-width="2"/>
+            <ellipse cx="70" cy="66" rx="34" ry="32" fill="url(#gopalSkin${uid})" stroke="#5c2808" stroke-width="2.4"/>
+            <!-- Rambut Hitam Tebal -->
+            <path d="M36 58 C36 26 104 26 104 58 C95 45 80 42 70 46 C60 42 45 45 36 58 Z" fill="#1e293b"/>
+            <path d="M50 36 Q70 30 90 36" stroke="#475569" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+            <!-- Mata Ceria -->
+            <ellipse cx="56" cy="66" rx="7.2" ry="8.2" fill="#ffffff" stroke="#3b1806" stroke-width="1.6"/>
+            <ellipse cx="84" cy="66" rx="7.2" ry="8.2" fill="#ffffff" stroke="#3b1806" stroke-width="1.6"/>
+            <circle cx="57" cy="67" r="4.6" fill="#1c0a00"/><circle cx="83" cy="67" r="4.6" fill="#1c0a00"/>
+            <circle cx="55.5" cy="64.8" r="1.9" fill="#ffffff"/><circle cx="81.5" cy="64.8" r="1.9" fill="#ffffff"/>
+            <path d="M47 56 Q56 52 63 56" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+            <path d="M77 56 Q84 52 93 56" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+            <!-- Senyuman Lebar Mesra -->
+            <path d="M54 79 Q70 94 86 79 Q70 84 54 79 Z" fill="#ffffff" stroke="#451a03" stroke-width="2"/>
+          </svg>`,
+
+        /* FANG: Rambut Ungu Tercacak Ikonik + Cermin Mata Ungu + Jaket Bayang Ungu-Hitam */
+        fang: `
+          <svg width="${size}" height="${size}" viewBox="0 0 140 140" fill="none" class="hd-avatar-wrap">
+            <defs>
+              <radialGradient id="fangSkin${uid}" cx="45%" cy="38%" r="65%">
+                <stop offset="0%" stop-color="#fff4e6"/>
+                <stop offset="60%" stop-color="#fde0c2"/>
+                <stop offset="100%" stop-color="#e5a375"/>
+              </radialGradient>
+              <linearGradient id="fangHair${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#8b5cf6"/>
+                <stop offset="50%" stop-color="#4c1d95"/>
+                <stop offset="100%" stop-color="#1e1b4b"/>
+              </linearGradient>
+              <linearGradient id="fangSuit${uid}" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#4f46e5"/>
+                <stop offset="100%" stop-color="#1e1b4b"/>
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="60" fill="#8b5cf6" opacity="0.16"/>
+            <!-- Jaket Futuristik Ungu-Hitam Fang -->
+            <rect x="61" y="88" width="18" height="14" rx="6" fill="#dfa075"/>
+            <path d="M35 102 C39 92 101 92 105 102 L110 132 C94 137 46 137 30 132 Z" fill="url(#fangSuit${uid})" stroke="#1e1b4b" stroke-width="2.5"/>
+            <path d="M50 96 L70 116 L90 96" fill="#0f172a" stroke="#a78bfa" stroke-width="2"/>
+            <!-- Muka -->
+            <ellipse cx="39" cy="68" rx="5.5" ry="8" fill="url(#fangSkin${uid})" stroke="#9a5528" stroke-width="1.8"/>
+            <ellipse cx="101" cy="68" rx="5.5" ry="8" fill="url(#fangSkin${uid})" stroke="#9a5528" stroke-width="1.8"/>
+            <path d="M41 59 C41 36 99 36 99 59 C99 84 85 96 70 96 C55 96 41 84 41 59 Z" fill="url(#fangSkin${uid})" stroke="#9a5528" stroke-width="2.2"/>
+            <!-- Rambut Tercacak Ungu Gelap Ikonik Fang -->
+            <path d="M36 62 L24 38 L46 42 L56 16 L71 34 L88 18 L93 41 L115 36 L102 62 C88 49 52 49 36 62 Z" fill="url(#fangHair${uid})" stroke="#1e1b4b" stroke-width="2.2" stroke-linejoin="round"/>
+            <path d="M56 26 L68 38 L84 26" stroke="#c4b5fd" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+            <!-- Cermin Mata Bergaya Fang -->
+            <rect x="44" y="61" width="21" height="12" rx="4" fill="#ede9fe" fill-opacity="0.7" stroke="#312e81" stroke-width="2.6"/>
+            <rect x="75" y="61" width="21" height="12" rx="4" fill="#ede9fe" fill-opacity="0.7" stroke="#312e81" stroke-width="2.6"/>
+            <line x1="65" y1="67" x2="75" y2="67" stroke="#312e81" stroke-width="2.6"/>
+            <circle cx="55" cy="67" r="3.4" fill="#312e81"/><circle cx="85" cy="67" r="3.4" fill="#312e81"/>
+            <circle cx="54" cy="65.8" r="1.3" fill="#ffffff"/><circle cx="84" cy="65.8" r="1.3" fill="#ffffff"/>
+            <!-- Senyuman Cool -->
+            <path d="M61 83 Q71 88 80 81" stroke="#4c1d95" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          </svg>`
+      };
+      return svgs[name] || svgs.boboiboy;
+    }
+
+    function getCrystalSVG(unlocked, color = '#38bdf8', size = 44) {
+      const uid = ++_svgUid;
+      const stroke = unlocked ? '#075985' : '#64748b';
+      return `
+        <svg width="${size}" height="${size}" viewBox="0 0 64 64" fill="none">
+          <defs>
+            <linearGradient id="cryGrad${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="${unlocked ? '#ffffff' : '#e2e8f0'}"/>
+              <stop offset="35%" stop-color="${unlocked ? color : '#cbd5e1'}"/>
+              <stop offset="100%" stop-color="${unlocked ? '#0369a1' : '#64748b'}"/>
+            </linearGradient>
+          </defs>
+          <polygon points="32,4 53,22 44,58 20,58 11,22" fill="url(#cryGrad${uid})" stroke="${stroke}" stroke-width="3" stroke-linejoin="round"/>
+          <polygon points="32,4 42,22 32,58 22,22" fill="#ffffff" opacity="${unlocked ? '0.45' : '0.15'}"/>
+          <polygon points="32,4 53,22 42,22" fill="#ffffff" opacity="${unlocked ? '0.65' : '0.2'}"/>
+          ${unlocked ? '<circle cx="32" cy="24" r="4.5" fill="#fef08a"/>' : ''}
+        </svg>`;
+    }
+
+    /* ================================================================
+       3. DATA KANDUNGAN PENDIDIKAN ISLAM (MAZHAB SYAFIE - TEPAT 100%)
+       ================================================================ */
+    const SIX_RUKUN = [
+      { id: 1, title: 'Niat', short: 'Niat ketika mula membasuh muka', icon: 'fa-heart', color: '#f97316' },
+      { id: 2, title: 'Membasuh Muka', short: 'Dari dahi hingga dagu & antara dua telinga', icon: 'fa-face-smile', color: '#0ea5e9' },
+      { id: 3, title: 'Membasuh Kedua-dua Tangan Hingga Siku', short: 'Tangan kanan & kiri termasuk siku', icon: 'fa-hands-bubbles', color: '#22c55e' },
+      { id: 4, title: 'Menyapu Sebahagian Kepala', short: 'Menyapu air pada sebahagian kepala', icon: 'fa-droplet', color: '#0284c7' },
+      { id: 5, title: 'Membasuh Kedua-dua Kaki Hingga Buku Lali', short: 'Kaki kanan & kiri termasuk buku lali', icon: 'fa-socks', color: '#16a34a' },
+      { id: 6, title: 'Tertib', short: 'Melakukan semua rukun mengikut urutan', icon: 'fa-list-ol', color: '#eab308' }
+    ];
+
+    const LEVELS_META = [
+      { id: 1, name: 'Misi Kenali Rukun Wuduk', char: 'boboiboy', charLabel: 'BoBoiBoy', theme: 'bg-theme-planet', crystalColor: '#38bdf8', desc: 'Pilih kad bergambar yang menunjukkan rukun wuduk dengan tepat.' },
+      { id: 2, name: 'Cabaran Susun Langkah Wuduk', char: 'yaya', charLabel: 'Yaya', theme: 'bg-theme-garden', crystalColor: '#f472b6', desc: 'Seret dan susun enam rukun wuduk mengikut urutan tertib.' },
+      { id: 3, name: 'Serangan Air BoBoiBoy', char: 'boboiboy_air', charLabel: 'BoBoiBoy Air', theme: 'bg-theme-waterfall', crystalColor: '#0ea5e9', desc: 'Kenal pasti anggota badan yang wajib dibasuh atau disapu.' },
+      { id: 4, name: 'Betul atau Salah?', char: 'gopal', charLabel: 'Gopal & Fang', theme: 'bg-theme-garden', crystalColor: '#4ade80', desc: 'Tentukan sama ada pernyataan tentang wuduk itu Betul atau Salah.' },
+      { id: 5, name: 'Misi Selamatkan Planet Wuduk', char: 'ying', charLabel: 'Semua Watak', theme: 'bg-theme-planet', crystalColor: '#facc15', desc: 'Jawab 8 soalan pilihan berganda bagi memulihkan air Planet Wuduk.' },
+      { id: 6, name: 'Pertarungan Akhir Wira Wuduk', char: 'fang', charLabel: 'BoBoiBoy & Rakan', theme: 'bg-theme-hq', crystalColor: '#fb923c', desc: 'Ujian akhir 10 soalan rawak! Capai sekurang-kurangnya 8/10.' }
+    ];
+
+    // Soalan Level 1 (Kenali Rukun Wuduk dengan kad bergambar)
+    const LEVEL1_QUESTIONS = [
+      {
+        prompt: 'Antara berikut, yang manakah merupakan RUKUN WUDUK yang pertama?',
+        cards: [
+          { title: 'Niat ketika mula membasuh muka', icon: 'fa-heart', isCorrect: true },
+          { title: 'Membaca Bismillah', icon: 'fa-book-open', isCorrect: false },
+          { title: 'Berkumur-kumur', icon: 'fa-mug-hot', isCorrect: false },
+          { title: 'Membasuh pergelangan tangan', icon: 'fa-hand', isCorrect: false },
+          { title: 'Menyapu kedua-dua telinga', icon: 'fa-ear-listen', isCorrect: false },
+          { title: 'Membasuh tiga kali', icon: 'fa-repeat', isCorrect: false }
+        ],
+        explain: 'Tepat! Niat mengangkat hadas kecil ketika mula membasuh muka ialah Rukun Wuduk yang pertama. Yang lain adalah perkara sunat.'
+      },
+      {
+        prompt: 'Pilih kad yang menunjukkan RUKUN WUDUK yang wajib dibasuh dari dahi hingga dagu:',
+        cards: [
+          { title: 'Berkumur tiga kali', icon: 'fa-water', isCorrect: false },
+          { title: 'Membasuh Muka', icon: 'fa-face-smile', isCorrect: true },
+          { title: 'Memasukkan air ke hidung', icon: 'fa-wind', isCorrect: false },
+          { title: 'Menggosok gigi (Bersiwak)', icon: 'fa-tooth', isCorrect: false },
+          { title: 'Menyapu telinga', icon: 'fa-ear-listen', isCorrect: false },
+          { title: 'Membaca doa selepas wuduk', icon: 'fa-hands-praying', isCorrect: false }
+        ],
+        explain: 'Betul! Membasuh seluruh bahagian muka (dari tempat tumbuh rambut di dahi hingga bawah dagu serta antara dua telinga) ialah Rukun Wuduk ke-2.'
+      },
+      {
+        prompt: 'Antara kad berikut, yang manakah RUKUN WUDUK berkaitan anggota tangan?',
+        cards: [
+          { title: 'Membasuh pergelangan tangan sahaja', icon: 'fa-hand-sparkles', isCorrect: false },
+          { title: 'Membasuh tangan hingga ke bahu', icon: 'fa-person', isCorrect: false },
+          { title: 'Membasuh kedua-dua tangan hingga ke siku', icon: 'fa-hands-bubbles', isCorrect: true },
+          { title: 'Menyelati jari tiga kali', icon: 'fa-hand-dots', isCorrect: false },
+          { title: 'Mendahulukan tangan kanan', icon: 'fa-hand-point-right', isCorrect: false },
+          { title: 'Mengelap tangan dengan tuala', icon: 'fa-scroll', isCorrect: false }
+        ],
+        explain: 'Syabas! Membasuh kedua-dua tangan hingga ke siku (termasuk siku) ialah Rukun Wuduk ke-3.'
+      },
+      {
+        prompt: 'Pilih kad yang menunjukkan RUKUN WUDUK ke-4 dengan tepat:',
+        cards: [
+          { title: 'Membasuh seluruh rambut dengan syampu', icon: 'fa-shower', isCorrect: false },
+          { title: 'Menyapu kedua-dua belah telinga', icon: 'fa-ear-listen', isCorrect: false },
+          { title: 'Membasuh leher', icon: 'fa-user', isCorrect: false },
+          { title: 'Menyapu sebahagian kepala', icon: 'fa-droplet', isCorrect: true },
+          { title: 'Menyapu muka dengan tuala', icon: 'fa-wind', isCorrect: false },
+          { title: 'Membasuh kepala tiga kali', icon: 'fa-repeat', isCorrect: false }
+        ],
+        explain: 'Hebat! Menyapu sebahagian kepala ialah Rukun Wuduk ke-4. Ingat, kepala hanya disapu, bukan dibasuh.'
+      },
+      {
+        prompt: 'Antara berikut, yang manakah RUKUN WUDUK ke-5 dan ke-6?',
+        cards: [
+          { title: 'Membasuh kaki hingga buku lali & Tertib', icon: 'fa-list-check', isCorrect: true },
+          { title: 'Membasuh kaki hingga lutut sahaja', icon: 'fa-person-walking', isCorrect: false },
+          { title: 'Membasuh anggota sebanyak tiga kali', icon: 'fa-repeat', isCorrect: false },
+          { title: 'Menghadap kiblat semasa berwuduk', icon: 'fa-compass', isCorrect: false },
+          { title: 'Membaca doa selepas wuduk', icon: 'fa-hands-praying', isCorrect: false },
+          { title: 'Berkumur dan istinsyak', icon: 'fa-water', isCorrect: false }
+        ],
+        explain: 'Cemerlang! Membasuh kedua-dua kaki hingga ke buku lali (Rukun 5) dan Tertib mengikut urutan (Rukun 6) melengkapkan enam rukun wuduk!'
+      }
+    ];
+
+    // Misi Level 3 (Serangan Air BoBoiBoy - Pilih Anggota Wajib)
+    const LEVEL3_TARGETS = [
+      {
+        zone: 'muka',
+        instruction: 'Sasarkan Kuasa Air ke bahagian MUKA yang wajib dibasuh (dari dahi hingga bawah dagu & antara dua telinga)!',
+        explain: 'Tepat! Batas muka yang wajib dibasuh ialah dari tempat tumbuh rambut di dahi hingga ke bawah dagu, serta antara dua telinga.'
+      },
+      {
+        zone: 'tangan',
+        instruction: 'Sasarkan Kuasa Air ke bahagian KEDUA-DUA TANGAN sehingga ke SIKU!',
+        explain: 'Hebat! Kedua-dua tangan (kanan kemudian kiri) wajib dibasuh sehingga meliputi kedua-dua siku.'
+      },
+      {
+        zone: 'kepala',
+        instruction: 'Sasarkan Kuasa Air ke kawasan KEPALA yang perlu DISAPU sebahagiannya!',
+        explain: 'Cemerlang! Rukun ke-4 ialah menyapu sebahagian kepala dengan air. Menyapu berbeza daripada membasuh.'
+      },
+      {
+        zone: 'kaki',
+        instruction: 'Sasarkan Kuasa Air ke bahagian KEDUA-DUA KAKI sehingga ke BUKU LALI!',
+        explain: 'Syabas! Kedua-dua kaki (kanan kemudian kiri) wajib dibasuh sehingga merangkumi kedua-dua buku lali.'
+      }
+    ];
+
+    // Soalan Level 4 (Betul atau Salah - 6 pernyataan tepat daripada spesifikasi)
+    const LEVEL4_STATEMENTS = [
+      { text: 'Membasuh tangan sehingga siku merupakan salah satu rukun wuduk.', answer: true, explain: 'Betul! Membasuh kedua-dua tangan hingga ke siku ialah Rukun Wuduk ke-3.' },
+      { text: 'Menyapu sebahagian kepala merupakan rukun wuduk.', answer: true, explain: 'Betul! Menyapu air pada sebahagian kepala ialah Rukun Wuduk ke-4.' },
+      { text: 'Membasuh kaki sehingga buku lali boleh ditinggalkan.', answer: false, explain: 'Salah! Membasuh kedua-dua kaki hingga buku lali ialah Rukun Wuduk ke-5. Jika ditinggalkan, wuduk tidak sah.' },
+      { text: 'Niat dilakukan ketika mula membasuh muka.', answer: true, explain: 'Betul! Mengikut mazhab Syafie, niat wuduk dilakukan di dalam hati ketika air mula mengenai bahagian muka.' },
+      { text: 'Membasuh setiap anggota sebanyak tiga kali merupakan rukun wuduk.', answer: false, explain: 'Salah! Membasuh setiap anggota sebanyak tiga kali adalah PERKARA SUNAT, bukan rukun. Yang wajib ialah sekali basuhan yang rata.' },
+      { text: 'Tertib bermaksud melakukan rukun wuduk mengikut susunan.', answer: true, explain: 'Betul! Tertib ialah Rukun Wuduk ke-6 iaitu melaksanakan rukun mengikut urutan yang betul.' }
+    ];
+
+    // Soalan Level 5 (8 Soalan Pilihan Berganda meliputi kesemua 6 Rukun)
+    const LEVEL5_QUESTIONS = [
+      {
+        q: 'Apakah rukun wuduk yang dilakukan selepas membasuh kedua-dua tangan hingga siku?',
+        options: ['Membasuh kaki', 'Menyapu sebahagian kepala', 'Membasuh muka', 'Membasuh tangan'],
+        correct: 1,
+        explain: 'Selepas membasuh kedua-dua tangan hingga siku (Rukun 3), kita wajib menyapu sebahagian kepala (Rukun 4).'
+      },
+      {
+        q: 'Bilakah waktu yang tepat untuk berniat wuduk mengikut mazhab Syafie?',
+        options: ['Selepas selesai membasuh muka', 'Ketika mula membasuh sebahagian muka', 'Selepas membasuh kaki', 'Sebelum masuk ke bilik air'],
+        correct: 1,
+        explain: 'Niat mengangkat hadas kecil dilakukan di dalam hati ketika air mula mengenai bahagian muka.'
+      },
+      {
+        q: 'Apakah maksud lafaz niat: "نَوَيْتُ رَفْعَ الْحَدَثِ الْأَصْغَرِ لِلَّهِ تَعَالَى"?',
+        options: ['Sahaja aku solat fardu kerana Allah Taala', 'Sahaja aku mandi wajib kerana Allah Taala', 'Sahaja aku mengangkat hadas kecil kerana Allah Taala', 'Sahaja aku berpuasa esok hari kerana Allah Taala'],
+        correct: 2,
+        explain: 'Lafaz tersebut bermaksud: "Sahaja aku mengangkat hadas kecil kerana Allah Taala."'
+      },
+      {
+        q: 'Manakah batas muka yang wajib dibasuh semasa berwuduk?',
+        options: ['Dari kening hingga hidung sahaja', 'Dari tempat tumbuh rambut di dahi hingga bawah dagu serta antara dua telinga', 'Bahagian pipi dan mulut sahaja', 'Dari rambut hingga ke bahu'],
+        correct: 1,
+        explain: 'Seluruh muka dari tempat tumbuh rambut di dahi hingga bawah dagu dan antara dua telinga wajib diratakan air.'
+      },
+      {
+        q: 'Apakah bahagian yang WAJIB termasuk semasa membasuh kedua-dua belah tangan?',
+        options: ['Pergelangan tangan sahaja', 'Kedua-dua siku', 'Bahu kanan dan kiri', 'Ketiak'],
+        correct: 1,
+        explain: 'Kedua-dua siku wajib termasuk dalam kawasan basuhan tangan (Rukun Wuduk ke-3).'
+      },
+      {
+        q: 'Bagaimanakah cara melaksanakan Rukun Wuduk ke-4 pada bahagian kepala?',
+        options: ['Menyapu air pada sebahagian kepala', 'Merendam seluruh kepala dalam baldi', 'Mengelap kepala dengan kain kering', 'Tidak perlu mengenakan air pada kepala'],
+        correct: 0,
+        explain: 'Rukun ke-4 ialah menyapu air pada sebahagian kepala. Menyapu berbeza daripada membasuh.'
+      },
+      {
+        q: 'Semasa membasuh kedua-dua kaki, kawasan manakah yang wajib diratakan air?',
+        options: ['Hujung jari kaki sahaja', 'Tapak kaki sahaja', 'Dari hujung jari kaki hingga merangkumi kedua-dua buku lali', 'Dari lutut hingga betis'],
+        correct: 2,
+        explain: 'Membasuh kedua-dua kaki (kanan kemudian kiri) wajib sehingga meliputi kedua-dua buku lali.'
+      },
+      {
+        q: 'Apakah maksud "Tertib" dalam rukun wuduk?',
+        options: ['Membasuh anggota dengan cepat', 'Melakukan semua rukun wuduk mengikut susunan yang betul', 'Membasuh setiap anggota sebanyak tiga kali', 'Menggunakan air yang sangat banyak'],
+        correct: 1,
+        explain: 'Tertib (Rukun 6) bermaksud melakukan setiap rukun wuduk secara berurutan dari Rukun 1 hingga Rukun 5.'
+      }
+    ];
+
+    // Bank Soalan Level 6 (14 soalan -> 10 dipilih secara rawak setiap kali main)
+    const LEVEL6_BANK = [
+      { q: 'Berapakah bilangan rukun wuduk yang wajib dilakukan supaya wuduk sah?', options: ['4 rukun', '5 rukun', '6 rukun', '8 rukun'], correct: 2, explain: 'Terdapat 6 rukun wuduk: Niat, Basuh Muka, Basuh Tangan hingga Siku, Sapu Kepala, Basuh Kaki hingga Buku Lali, dan Tertib.' },
+      { q: 'Apakah yang dimaksudkan dengan "Rukun Wuduk"?', options: ['Perkara yang boleh ditinggalkan sesuka hati', 'Perkara wajib dilakukan; jika ditinggalkan wuduk tidak sah', 'Perkara yang dibuat selepas solat', 'Amalan sunat untuk tambahan pahala'], correct: 1, explain: 'Rukun wuduk ialah perkara asas yang wajib dipatuhi supaya wuduk sah.' },
+      { q: 'Di manakah tempat berniat wuduk yang sebenar?', options: ['Di dalam hati ketika mula membasuh muka', 'Ditulis di atas kertas', 'Selepas selesai membasuh kaki', 'Ketika keluar dari masjid'], correct: 0, explain: 'Niat dilakukan di dalam hati beriringan dengan basuhan pertama pada muka.' },
+      { q: 'Antara berikut, yang manakah merupakan PERKARA SUNAT dan BUKAN rukun wuduk?', options: ['Membasuh muka', 'Membasuh setiap anggota sebanyak tiga kali', 'Menyapu sebahagian kepala', 'Tertib'], correct: 1, explain: 'Membasuh tiga kali adalah amalan sunat. Yang rukun ialah membasuh sekali dengan rata.' },
+      { q: 'Manakah antara berikut BUKAN termasuk dalam enam rukun wuduk?', options: ['Berkumur-kumur', 'Niat', 'Membasuh kedua-dua tangan hingga ke siku', 'Membasuh kedua-dua kaki hingga ke buku lali'], correct: 0, explain: 'Berkumur-kumur adalah perkara sunat wuduk, bukan rukun.' },
+      { q: 'Jika Ali membasuh kaki dahulu sebelum membasuh muka, apakah hukum wuduknya?', options: ['Sah kerana semua anggota sudah basah', 'Tidak sah kerana tidak mengikut tertib', 'Makruh sahaja', 'Sunat diulang'], correct: 1, explain: 'Wuduk Ali tidak sah kerana melanggar Rukun ke-6 iaitu Tertib (mengikut urutan).' },
+      { q: 'Apakah perbezaan antara menyapu kepala dengan membasuh muka?', options: ['Tiada perbezaan', 'Menyapu hanya meratakan air dengan tangan basah pada sebahagian kepala, manakala membasuh memerlukan air mengalir rata', 'Menyapu menggunakan tuala kering', 'Membasuh muka tidak perlu air'], correct: 1, explain: 'Menyapu sebahagian kepala cukup dengan sapuan tangan basah, berbeza dengan membasuh yang mengalirkan air.' },
+      { q: 'Apakah anggota yang wajib dibasuh selepas menyapu sebahagian kepala?', options: ['Muka', 'Kedua-dua tangan hingga siku', 'Kedua-dua kaki hingga buku lali', 'Kedua-dua telinga'], correct: 2, explain: 'Selepas menyapu sebahagian kepala (Rukun 4), langkah wajib seterusnya ialah membasuh kedua-dua kaki hingga buku lali (Rukun 5).' },
+      { q: 'Manakah pernyataan yang BETUL tentang membasuh tangan semasa berwuduk?', options: ['Cukup setakat pergelangan tangan', 'Wajib dari hujung jari hingga melepasi siku', 'Tangan kiri wajib dahulu daripada tangan kanan', 'Siku tidak perlu terkena air'], correct: 1, explain: 'Kedua-dua tangan wajib dibasuh dari hujung jari hingga merangkumi siku.' },
+      { q: 'Menyapu kedua-dua belah telinga dalam wuduk adalah hukumnya...', options: ['Rukun', 'Sunat', 'Haram', 'Batal wuduk'], correct: 1, explain: 'Menyapu kedua-dua belah telinga adalah perkara sunat wuduk.' },
+      { q: 'Apakah batas bahagian bawah muka yang wajib dibasuh?', options: ['Bawah hidung', 'Bawah bibir', 'Bawah dagu', 'Bahagian dada'], correct: 2, explain: 'Batas muka adalah dari tempat tumbuh rambut di dahi hingga ke bawah dagu dan antara dua telinga.' },
+      { q: 'Apakah maksud "نَوَيْتُ رَفْعَ الْحَدَثِ الْأَصْغَرِ لِلَّهِ تَعَالَى"?', options: ['Sahaja aku mengangkat hadas kecil kerana Allah Taala', 'Dengan nama Allah Yang Maha Pemurah', 'Segala puji bagi Allah', 'Sahaja aku menunaikan solat Subuh'], correct: 0, explain: 'Itulah lafaz niat wuduk untuk mengangkat hadas kecil kerana Allah Taala.' },
+      { q: 'Semasa membasuh kaki, bahagian manakah yang mesti dipastikan terkena air?', options: ['Hujung kuku sahaja', 'Kedua-dua buku lali', 'Lutut', 'Peha'], correct: 1, explain: 'Kedua-dua buku lali wajib termasuk dalam basuhan kaki.' },
+      { q: 'Apakah rukun wuduk yang dilakukan tepat selepas berniat dan membasuh muka?', options: ['Membasuh kedua-dua kaki hingga buku lali', 'Menyapu sebahagian kepala', 'Membasuh kedua-dua tangan hingga ke siku', 'Membaca doa'], correct: 2, explain: 'Urutan yang betul: (1) Niat & (2) Basuh Muka -> (3) Basuh Kedua-dua Tangan hingga ke Siku.' }
+    ];
+
+    const MOTIVATION_CORRECT = [
+      'Hebat! BoBoiBoy bangga dengan kamu!',
+      'Tahniah! Kamu semakin mahir berwuduk!',
+      'Wow! Kamu berjaya menguasai rukun wuduk!',
+      'Terbaik! Kuasa Air Planet Wuduk semakin pulih!'
+    ];
+    const MOTIVATION_WRONG = [
+      'Jangan putus asa! Cuba lagi, kamu pasti boleh!',
+      'Hampir tepat! Semak semula penerangan dan cuba lagi ya!',
+      'Tidak mengapa, kesilapan membantu kita belajar dengan lebih baik!'
+    ];
+
+    /* ================================================================
+       4. KEADAAN PERMAINAN (GAME STATE)
+       ================================================================ */
+    const GameState = {
+      currentLevel: 1,
+      completedLevels: {}, // { 1: { stars, score, accuracy }, ... }
+      totalScore: 0,
+      levelScore: 0,
+      levelCorrect: 0,
+      levelTotal: 0,
+      stepIndex: 0,
+      // State khusus peringkat
+      l2Order: [],
+      l2Attempts: 0,
+      l2SelectedSlot: null,
+      l3DoneZones: [],
+      l6Questions: []
+    };
+
+    /* ================================================================
+       5. FUNGSI KESAN VISUAL (PERCIKAN AIR, BINTANG & SKOR TERAPUNG)
+       ================================================================ */
+    function spawnParticles(x, y, type = 'star', count = 14) {
+      const icons = type === 'water'
+        ? ['💧', '💦', '✨']
+        : ['⭐', '✨', '🌟', '💎'];
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        el.className = 'fx-particle text-xl sm:text-2xl';
+        el.textContent = icons[i % icons.length];
+        const angle = (Math.PI * 2 * i) / count + (Math.random() * 0.4);
+        const dist = 48 + Math.random() * 78;
+        el.style.left = `${x}px`;
+        el.style.top = `${y}px`;
+        el.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
+        el.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 820);
+      }
+    }
+
+    function spawnFloatingScore(text, x, y, color = '#16a34a') {
+      const el = document.createElement('div');
+      el.className = 'fx-score-float text-2xl sm:text-3xl';
+      el.textContent = text;
+      el.style.left = `${x - 24}px`;
+      el.style.top = `${y - 16}px`;
+      el.style.color = color;
+      el.style.textShadow = '0 2px 0 #ffffff';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 980);
+    }
+
+    /* ================================================================
+       6. NAVIGASI SKRIN & KEMAS KINI HUD
+       ================================================================ */
+    function showScreen(screenId) {
+      document.querySelectorAll('.game-screen').forEach(s => s.classList.add('hidden'));
+      const target = document.getElementById(`screen-${screenId}`);
+      if (target) {
+        target.classList.remove('hidden');
+        target.classList.remove('anim-pop');
+        void target.offsetWidth;
+        target.classList.add('anim-pop');
+      }
+
+      const hud = document.getElementById('gameHud');
+      const showHud = ['map', 'play', 'level-complete', 'briefing'].includes(screenId);
+      hud.classList.toggle('hidden', !showHud);
+
+      if (screenId === 'menu') {
+        setBgTheme('bg-theme-planet');
+      }
+      updateHud();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setBgTheme(themeClass) {
+      const body = document.getElementById('gameBody');
+      body.classList.remove('bg-theme-planet', 'bg-theme-waterfall', 'bg-theme-garden', 'bg-theme-hq');
+      body.classList.add(themeClass || 'bg-theme-planet');
+
+      // Laraskan elemen pemandangan HD mengikut tema peringkat
+      const sunGroup = document.getElementById('hdSunGroup');
+      const hqOverlay = document.getElementById('hdHqOverlay');
+      if (sunGroup && hqOverlay) {
+        const isHq = themeClass === 'bg-theme-hq';
+        sunGroup.style.opacity = isHq ? '0.18' : '1';
+        hqOverlay.style.opacity = isHq ? '0.9' : '0';
+      }
+    }
+
+    function updateHud() {
+      const completedCount = Object.keys(GameState.completedLevels).length;
+      const countEl = document.getElementById('hudCrystalCount');
+      const barEl = document.getElementById('hudProgressBar');
+      const scoreEl = document.getElementById('hudScore');
+      const rowEl = document.getElementById('hudCrystalsRow');
+
+      if (countEl) countEl.textContent = `${completedCount} / 6 Kristal`;
+      if (barEl) barEl.style.width = `${Math.round((completedCount / 6) * 100)}%`;
+      if (scoreEl) scoreEl.textContent = GameState.totalScore;
+      if (rowEl) {
+        rowEl.innerHTML = LEVELS_META.map(lvl => {
+          const unlocked = Boolean(GameState.completedLevels[lvl.id]);
+          return `<span title="Kristal ${lvl.id}: ${lvl.name}" class="${unlocked ? 'anim-glow' : 'opacity-45'}">${getCrystalSVG(unlocked, lvl.crystalColor, 24)}</span>`;
+        }).join('');
+      }
+    }
+
+    function randomFrom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function showFeedback(isSuccess, headline, detail) {
+      const box = document.getElementById('playFeedbackBox');
+      if (!box) return;
+      box.classList.remove('hidden', 'bg-emerald-50', 'border-leafGreen', 'text-emerald-950', 'bg-rose-50', 'border-rose-400', 'text-rose-950', 'anim-pop', 'anim-shake');
+      void box.offsetWidth;
+      if (isSuccess) {
+        box.classList.add('bg-emerald-50', 'border-leafGreen', 'text-emerald-950', 'anim-pop');
+        box.innerHTML = `
+          <div class="flex items-start gap-3">
+            <span class="w-9 h-9 rounded-xl bg-leafGreen text-white flex items-center justify-center shrink-0 text-lg"><i class="fa-solid fa-check"></i></span>
+            <div>
+              <p class="font-cartoon text-lg leading-tight">${headline}</p>
+              <p class="text-xs sm:text-sm font-bold text-emerald-800 mt-1">${detail}</p>
+            </div>
+          </div>`;
+      } else {
+        box.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-950', 'anim-shake');
+        box.innerHTML = `
+          <div class="flex items-start gap-3">
+            <span class="w-9 h-9 rounded-xl bg-rose-500 text-white flex items-center justify-center shrink-0 text-lg"><i class="fa-solid fa-circle-info"></i></span>
+            <div>
+              <p class="font-cartoon text-lg leading-tight">${headline}</p>
+              <p class="text-xs sm:text-sm font-bold text-rose-800 mt-1">${detail}</p>
+            </div>
+          </div>`;
+      }
+    }
+
+    function hideFeedback() {
+      const box = document.getElementById('playFeedbackBox');
+      if (box) box.classList.add('hidden');
+    }
+
+    function setNextButton(label, handler) {
+      const btn = document.getElementById('playNextBtn');
+      if (!btn) return;
+      btn.innerHTML = `<span>${label}</span> <i class="fa-solid fa-arrow-right"></i>`;
+      btn.onclick = () => {
+        playClick();
+        handler();
+      };
+      btn.classList.remove('hidden');
+    }
+
+    function startIntroSequence() {
+      AudioEngine.startBgm();
+      AudioEngine.playClick();
+      showScreen('intro');
+    }
+
+    function openMapScreen() {
+      setBgTheme('bg-theme-planet');
+      const grid = document.getElementById('levelMapGrid');
+      const completedCount = Object.keys(GameState.completedLevels).length;
+
+      grid.innerHTML = LEVELS_META.map(lvl => {
+        const record = GameState.completedLevels[lvl.id];
+        const unlocked = lvl.id === 1 || Boolean(GameState.completedLevels[lvl.id - 1]) || Boolean(record);
+        const starsHtml = [1, 2, 3].map(s =>
+          `<i class="fa-solid fa-star text-sm ${record && record.stars >= s ? 'text-amber-400' : 'text-slate-300'}"></i>`
+        ).join('');
+
+        return `
+          <div class="rounded-2xl p-4 border-3 transition flex flex-col justify-between ${unlocked ? 'bg-white border-sky-200 shadow-md hover:-translate-y-1' : 'bg-slate-100/90 border-slate-200 opacity-75'}">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-cartoon ${unlocked ? 'bg-heroOrange text-white' : 'bg-slate-400 text-white'}">
+                  LEVEL ${lvl.id}
+                </span>
+                <div class="flex items-center gap-1">${starsHtml}</div>
+              </div>
+              <div class="flex items-center gap-3 mb-2.5">
+                <div class="w-14 h-14 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center shrink-0">
+                  ${getCharacterSVG(lvl.char, 52)}
+                </div>
+                <div class="text-left">
+                  <h3 class="font-cartoon text-base sm:text-lg text-sky-950 leading-tight">${lvl.name}</h3>
+                  <p class="text-xs font-extrabold text-sky-600">${lvl.charLabel}</p>
+                </div>
+              </div>
+              <p class="text-xs font-bold text-slate-600 text-left mb-3">${lvl.desc}</p>
+            </div>
+            <div class="flex items-center justify-between gap-2 pt-2 border-t border-sky-100">
+              <div class="flex items-center gap-1.5">
+                ${getCrystalSVG(Boolean(record), lvl.crystalColor, 28)}
+                <span class="text-xs font-extrabold ${record ? 'text-emerald-700' : 'text-slate-400'}">
+                  ${record ? 'Kristal Diperoleh' : 'Belum Selesai'}
+                </span>
+              </div>
+              <button type="button" ${unlocked ? `onclick="playClick(); startLevel(${lvl.id})"` : 'disabled'} class="btn-game ${unlocked ? (record ? 'btn-green' : 'btn-blue') : 'btn-white'} text-white font-cartoon text-xs sm:text-sm px-3.5 py-2 rounded-xl">
+                ${unlocked ? (record ? 'MAIN LAGI' : 'MULA') : '<i class="fa-solid fa-lock text-slate-500"></i>'}
+              </button>
+            </div>
+          </div>`;
+      }).join('');
+
+      const vicBtn = document.getElementById('mapVictoryBtn');
+      if (vicBtn) vicBtn.classList.toggle('hidden', completedCount < 6);
+
+      document.getElementById('hudStageLabel').textContent = 'Peta Planet Wuduk';
+      showScreen('map');
+    }
+
+    /* ================================================================
+       7. PENGURUSAN 6 PERINGKAT CABARAN
+       ================================================================ */
+    function startLevel(lvl) {
+      const meta = LEVELS_META[lvl - 1];
+      if (!meta) return;
+
+      GameState.currentLevel = lvl;
+      GameState.levelScore = 0;
+      GameState.levelCorrect = 0;
+      GameState.stepIndex = 0;
+
+      document.getElementById('hudStageLabel').textContent = `Level ${lvl}: ${meta.name}`;
+      document.getElementById('playCharAvatar').innerHTML = getCharacterSVG(meta.char, 68);
+      document.getElementById('playLevelBadge').textContent = `LEVEL ${lvl} • ${meta.charLabel}`;
+      document.getElementById('playLevelTitle').textContent = meta.name;
+      document.getElementById('playLevelSub').textContent = meta.desc;
+      document.getElementById('playRetryBtn').classList.add('hidden');
+      document.getElementById('playNextBtn').classList.add('hidden');
+      hideFeedback();
+
+      setBgTheme(meta.theme);
+      showScreen('play');
+
+      if (lvl === 1) renderLevel1();
+      else if (lvl === 2) initLevel2();
+      else if (lvl === 3) initLevel3();
+      else if (lvl === 4) renderLevel4();
+      else if (lvl === 5) renderLevel5();
+      else if (lvl === 6) initLevel6();
+    }
+
+    function retryCurrentLevel() {
+      startLevel(GameState.currentLevel);
+    }
+
+    /* ----------------------------------------------------------------
+       LEVEL 1: MISI KENALI RUKUN WUDUK (BoBoiBoy - 6 Kad Bergambar)
+       ---------------------------------------------------------------- */
+    function renderLevel1() {
+      const idx = GameState.stepIndex;
+      const q = LEVEL1_QUESTIONS[idx];
+      GameState.levelTotal = LEVEL1_QUESTIONS.length;
+      document.getElementById('playStepCounter').textContent = `Cabaran ${idx + 1} / ${LEVEL1_QUESTIONS.length}`;
+      hideFeedback();
+      document.getElementById('playNextBtn').classList.add('hidden');
+
+      const stage = document.getElementById('playStageContent');
+      stage.innerHTML = `
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4 sm:p-5 mb-4 text-center">
+          <p class="font-cartoon text-lg sm:text-2xl text-sky-950">${q.prompt}</p>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          ${q.cards.map((c, i) => `
+            <button type="button" onclick="handleLevel1Pick(${i}, event)" class="l1-card btn-game btn-white p-4 rounded-2xl flex flex-col items-center justify-center text-center gap-2.5 min-h-[126px]">
+              <span class="w-12 h-12 rounded-2xl bg-sky-100 text-skyAqua flex items-center justify-center text-2xl">
+                <i class="fa-solid ${c.icon}"></i>
+              </span>
+              <span class="font-extrabold text-xs sm:text-sm text-sky-950 leading-snug">${c.title}</span>
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function handleLevel1Pick(cardIdx, ev) {
+      const q = LEVEL1_QUESTIONS[GameState.stepIndex];
+      const chosen = q.cards[cardIdx];
+      const cards = document.querySelectorAll('.l1-card');
+      cards.forEach(c => c.disabled = true);
+
+      const rect = ev.currentTarget.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+
+      if (chosen.isCorrect) {
+        AudioEngine.playCorrect();
+        GameState.levelCorrect++;
+        GameState.levelScore += 120;
+        ev.currentTarget.classList.remove('btn-white');
+        ev.currentTarget.classList.add('btn-green', 'text-white');
+        ev.currentTarget.querySelector('span:last-child').classList.add('text-white');
+        spawnParticles(cx, cy, 'star', 16);
+        spawnFloatingScore('+120', cx, cy, '#16a34a');
+        showFeedback(true, randomFrom(MOTIVATION_CORRECT), q.explain);
+      } else {
+        AudioEngine.playWrong();
+        ev.currentTarget.classList.remove('btn-white');
+        ev.currentTarget.classList.add('btn-red', 'text-white');
+        ev.currentTarget.querySelector('span:last-child').classList.add('text-white');
+        const rightIdx = q.cards.findIndex(c => c.isCorrect);
+        if (cards[rightIdx]) cards[rightIdx].classList.add('ring-4', 'ring-leafGreen');
+        showFeedback(false, randomFrom(MOTIVATION_WRONG), q.explain);
+      }
+
+      const isLast = GameState.stepIndex === LEVEL1_QUESTIONS.length - 1;
+      setNextButton(isLast ? 'TAMATKAN PERINGKAT' : 'CABARAN SETERUSNYA', () => {
+        if (isLast) finishLevel();
+        else {
+          GameState.stepIndex++;
+          renderLevel1();
+        }
+      });
+    }
+
+    /* ----------------------------------------------------------------
+       LEVEL 2: CABARAN SUSUN LANGKAH WUDUK (Yaya - Drag & Drop / Sentuh)
+       ---------------------------------------------------------------- */
+    function initLevel2() {
+      GameState.levelTotal = 6;
+      GameState.l2Attempts = 0;
+      GameState.l2SelectedSlot = null;
+
+      // Kocok susunan sehingga tidak sama dengan urutan betul
+      let shuffled = [...SIX_RUKUN].sort(() => Math.random() - 0.5);
+      while (shuffled.every((item, i) => item.id === i + 1)) {
+        shuffled = [...SIX_RUKUN].sort(() => Math.random() - 0.5);
+      }
+      GameState.l2Order = shuffled;
+      renderLevel2();
+    }
+
+    function renderLevel2() {
+      document.getElementById('playStepCounter').textContent = 'Susun 1 hingga 6';
+      const stage = document.getElementById('playStageContent');
+      stage.innerHTML = `
+        <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3.5 mb-4 text-xs sm:text-sm font-bold text-amber-950 flex items-center gap-2.5">
+          <i class="fa-solid fa-hand-pointer text-heroOrange text-lg"></i>
+          <span><strong>Arahan Yaya:</strong> Seret kad ke kedudukan yang betul (atau klik dua kad untuk menukar tempatnya), kemudian tekan <strong>SEMAK SUSUNAN</strong>.</span>
+        </div>
+
+        <div id="l2List" class="space-y-2.5 mb-5">
+          ${GameState.l2Order.map((item, idx) => `
+            <div class="drop-slot rounded-2xl border-3 p-2.5 sm:p-3 bg-white flex items-center gap-3 transition ${GameState.l2SelectedSlot === idx ? 'border-heroOrange bg-amber-50 ring-2 ring-orange-300' : 'border-sky-200'}" data-slot="${idx}">
+              <span class="w-9 h-9 rounded-xl bg-skyAqua text-white font-cartoon text-lg flex items-center justify-center shrink-0">${idx + 1}</span>
+              <div class="drag-card flex-1 flex items-center justify-between gap-3 select-none" data-index="${idx}">
+                <div class="flex items-center gap-3">
+                  <span class="w-10 h-10 rounded-xl flex items-center justify-center text-white shrink-0" style="background:${item.color}">
+                    <i class="fa-solid ${item.icon}"></i>
+                  </span>
+                  <div class="text-left">
+                    <p class="font-cartoon text-base sm:text-lg text-sky-950 leading-tight">${item.title}</p>
+                    <p class="text-xs font-bold text-slate-500">${item.short}</p>
+                  </div>
+                </div>
+                <span class="text-slate-400 px-2"><i class="fa-solid fa-grip-vertical text-lg"></i></span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <button type="button" onclick="playClick(); initLevel2(); hideFeedback();" class="btn-game btn-white text-sky-900 font-cartoon text-base py-2.5 px-5 rounded-xl">
+            <i class="fa-solid fa-shuffle mr-1"></i> KOCOK SEMULA
+          </button>
+          <button type="button" onclick="playClick(); checkLevel2Order()" class="btn-game btn-orange text-white font-cartoon text-lg py-3 px-7 rounded-xl">
+            <i class="fa-solid fa-check-double mr-1"></i> SEMAK SUSUNAN
+          </button>
+        </div>
+      `;
+
+      bindLevel2DragHandlers();
+    }
+
+    function bindLevel2DragHandlers() {
+      const cards = document.querySelectorAll('#l2List .drag-card');
+      cards.forEach(card => {
+        card.addEventListener('pointerdown', (e) => {
+          const fromIdx = Number(card.getAttribute('data-index'));
+          const startX = e.clientX;
+          const startY = e.clientY;
+          let isDragging = false;
+          let ghost = null;
+          let hoveredSlotIdx = null;
+
+          const onMove = (moveEv) => {
+            const dx = moveEv.clientX - startX;
+            const dy = moveEv.clientY - startY;
+            if (!isDragging && Math.hypot(dx, dy) > 8) {
+              isDragging = true;
+              const slotEl = card.closest('.drop-slot');
+              const rect = slotEl.getBoundingClientRect();
+              ghost = slotEl.cloneNode(true);
+              ghost.classList.add('drag-ghost');
+              ghost.style.width = `${rect.width}px`;
+              ghost.style.left = `${rect.left}px`;
+              ghost.style.top = `${rect.top}px`;
+              document.body.appendChild(ghost);
+              slotEl.style.opacity = '0.35';
+            }
+
+            if (isDragging && ghost) {
+              ghost.style.left = `${moveEv.clientX - ghost.offsetWidth / 2}px`;
+              ghost.style.top = `${moveEv.clientY - ghost.offsetHeight / 2}px`;
+
+              document.querySelectorAll('#l2List .drop-slot').forEach(s => s.classList.remove('slot-over'));
+              hoveredSlotIdx = null;
+              document.querySelectorAll('#l2List .drop-slot').forEach(s => {
+                const r = s.getBoundingClientRect();
+                if (moveEv.clientY >= r.top && moveEv.clientY <= r.bottom && moveEv.clientX >= r.left && moveEv.clientX <= r.right) {
+                  s.classList.add('slot-over');
+                  hoveredSlotIdx = Number(s.getAttribute('data-slot'));
+                }
+              });
+            }
+          };
+
+          const onUp = () => {
+            window.removeEventListener('pointermove', onMove);
+            window.removeEventListener('pointerup', onUp);
+            if (ghost) {
+              ghost.remove();
+              ghost = null;
+            }
+            document.querySelectorAll('#l2List .drop-slot').forEach(s => {
+              s.style.opacity = '1';
+              s.classList.remove('slot-over');
+            });
+
+            if (isDragging) {
+              if (hoveredSlotIdx !== null && hoveredSlotIdx !== fromIdx) {
+                const [moved] = GameState.l2Order.splice(fromIdx, 1);
+                GameState.l2Order.splice(hoveredSlotIdx, 0, moved);
+                GameState.l2SelectedSlot = null;
+                AudioEngine.playClick();
+                renderLevel2();
+              }
+            } else {
+              // Sokongan klik/sentuh untuk tukar kedudukan
+              AudioEngine.playClick();
+              if (GameState.l2SelectedSlot === null) {
+                GameState.l2SelectedSlot = fromIdx;
+                renderLevel2();
+              } else if (GameState.l2SelectedSlot === fromIdx) {
+                GameState.l2SelectedSlot = null;
+                renderLevel2();
+              } else {
+                const a = GameState.l2SelectedSlot;
+                const tmp = GameState.l2Order[a];
+                GameState.l2Order[a] = GameState.l2Order[fromIdx];
+                GameState.l2Order[fromIdx] = tmp;
+                GameState.l2SelectedSlot = null;
+                renderLevel2();
+              }
+            }
+          };
+
+          window.addEventListener('pointermove', onMove);
+          window.addEventListener('pointerup', onUp);
+        });
+      });
+    }
+
+    function checkLevel2Order() {
+      GameState.l2Attempts++;
+      let correctCount = 0;
+      const slots = document.querySelectorAll('#l2List .drop-slot');
+      GameState.l2Order.forEach((item, idx) => {
+        if (item.id === idx + 1) {
+          correctCount++;
+          slots[idx].classList.add('border-leafGreen', 'bg-emerald-50');
+        } else {
+          slots[idx].classList.add('border-red-400', 'bg-red-50');
+        }
+      });
+
+      if (correctCount === 6) {
+        AudioEngine.playCorrect();
+        const pts = Math.max(300, 600 - (GameState.l2Attempts - 1) * 100);
+        GameState.levelScore = pts;
+        GameState.levelCorrect = GameState.l2Attempts === 1 ? 6 : Math.max(4, 7 - GameState.l2Attempts);
+        spawnParticles(window.innerWidth / 2, window.innerHeight / 2, 'star', 22);
+        spawnFloatingScore(`+${pts}`, window.innerWidth / 2, window.innerHeight / 2, '#16a34a');
+        showFeedback(true, 'Hebat! Yaya kagum dengan ketepatan kamu!', 'Kesemua 6 Rukun Wuduk berjaya disusun mengikut urutan tertib yang sempurna!');
+        setNextButton('TAMATKAN PERINGKAT', () => finishLevel());
+      } else {
+        AudioEngine.playWrong();
+        // Petunjuk tanpa terus memberi jawapan
+        let hint = 'Petunjuk Yaya: Cuba semak kotak yang berwarna merah. ';
+        if (GameState.l2Order[0].id !== 1) hint += 'Apakah yang dilakukan terlebih dahulu bersama basuhan muka? ';
+        else if (GameState.l2Order[5].id !== 6) hint += 'Apakah rukun terakhir yang bermaksud mengikut urutan? ';
+        else hint += 'Ingat urutan anggota dari atas (muka) ke tangan, kepala, dan akhirnya kaki!';
+        showFeedback(false, `Kamu dapat ${correctCount} daripada 6 kedudukan betul. Cuba susun semula!`, hint);
+      }
+    }
+
+    /* ----------------------------------------------------------------
+       LEVEL 3: SERANGAN AIR BOBOIBOY (PILIH ANGGOTA WUDUK PADA SVG)
+       ---------------------------------------------------------------- */
+    function initLevel3() {
+      GameState.levelTotal = LEVEL3_TARGETS.length;
+      GameState.l3DoneZones = [];
+      GameState.stepIndex = 0;
+      renderLevel3();
+    }
+
+    function renderLevel3() {
+      const idx = GameState.stepIndex;
+      const target = LEVEL3_TARGETS[idx];
+      const isDone = (z) => GameState.l3DoneZones.includes(z);
+
+      document.getElementById('playStepCounter').textContent = `Sasaran ${idx + 1} / ${LEVEL3_TARGETS.length}`;
+      hideFeedback();
+      document.getElementById('playNextBtn').classList.add('hidden');
+
+      const stage = document.getElementById('playStageContent');
+      stage.innerHTML = `
+        <div class="bg-sky-50 border-2 border-sky-300 rounded-2xl p-4 mb-4 text-center">
+          <p class="font-cartoon text-lg sm:text-xl text-sky-950">${target.instruction}</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-center">
+          <!-- Ilustrasi Watak Kartun Berpakaian Sopan (SVG HD 3D-Shaded Interaktif) -->
+          <div class="bg-gradient-to-b from-sky-100 via-cyan-50 to-emerald-100 rounded-2xl p-4 border-3 border-sky-200 flex flex-col items-center relative shadow-inner">
+            <p class="text-xs font-extrabold text-sky-800 mb-2">Klik / Sentuh kawasan anggota badan di bawah:</p>
+            <svg viewBox="0 0 260 365" class="w-56 sm:w-64 h-auto select-none hd-avatar-wrap">
+              <defs>
+                <radialGradient id="l3Skin" cx="42%" cy="35%" r="68%">
+                  <stop offset="0%" stop-color="#ffedd5"/>
+                  <stop offset="55%" stop-color="#fed7aa"/>
+                  <stop offset="100%" stop-color="#e59a66"/>
+                </radialGradient>
+                <linearGradient id="l3WaterAura" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#e0f2fe"/>
+                  <stop offset="50%" stop-color="#38bdf8"/>
+                  <stop offset="100%" stop-color="#0284c7"/>
+                </linearGradient>
+                <linearGradient id="l3Shirt" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#4ade80"/>
+                  <stop offset="55%" stop-color="#16a34a"/>
+                  <stop offset="100%" stop-color="#14532d"/>
+                </linearGradient>
+                <linearGradient id="l3Pants" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#0284c7"/>
+                  <stop offset="100%" stop-color="#0c4a6e"/>
+                </linearGradient>
+              </defs>
+              <!-- Bayang lantai & percikan -->
+              <ellipse cx="130" cy="346" rx="70" ry="12" fill="#0284c7" opacity="0.22"/>
+
+              <!-- KEPALA (Kawasan Sapu Sebahagian Kepala) -->
+              <g class="body-zone ${isDone('kepala') ? 'body-zone-completed' : ''}" onclick="handleLevel3Zone('kepala', event)">
+                <path d="M84 68 C84 20 176 20 176 68 C160 55 100 55 84 68 Z" fill="${isDone('kepala') ? 'url(#l3WaterAura)' : '#1e293b'}" stroke="#0f172a" stroke-width="3"/>
+                <path d="M104 38 Q130 28 156 38" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.38"/>
+                <title>Kawasan Kepala (Disapu)</title>
+              </g>
+
+              <!-- TELINGA (Sunat - Pengganggu) -->
+              <g class="body-zone" onclick="handleLevel3Zone('telinga', event)">
+                <circle cx="82" cy="82" r="9.5" fill="url(#l3Skin)" stroke="#9a5528" stroke-width="2.2"/>
+                <circle cx="178" cy="82" r="9.5" fill="url(#l3Skin)" stroke="#9a5528" stroke-width="2.2"/>
+                <title>Telinga</title>
+              </g>
+
+              <!-- MUKA (Dahi hingga dagu, telinga ke telinga) -->
+              <g class="body-zone ${isDone('muka') ? 'body-zone-completed' : ''}" onclick="handleLevel3Zone('muka', event)">
+                <ellipse cx="130" cy="82" rx="44" ry="38" fill="${isDone('muka') ? 'url(#l3WaterAura)' : 'url(#l3Skin)'}" stroke="#9a5528" stroke-width="2.6"/>
+                <ellipse cx="114" cy="78" rx="6" ry="7" fill="#ffffff" stroke="#451a03" stroke-width="1.4"/>
+                <ellipse cx="146" cy="78" rx="6" ry="7" fill="#ffffff" stroke="#451a03" stroke-width="1.4"/>
+                <circle cx="114.5" cy="79" r="3.8" fill="#1e293b"/><circle cx="145.5" cy="79" r="3.8" fill="#1e293b"/>
+                <circle cx="113" cy="77" r="1.4" fill="#ffffff"/><circle cx="144" cy="77" r="1.4" fill="#ffffff"/>
+                <path d="M116 97 Q130 108 144 97" stroke="#7c2d12" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+                <title>Muka (Dahi hingga dagu)</title>
+              </g>
+
+              <!-- BADAN / BAJU SOPAN (Bukan Anggota Wuduk) -->
+              <g class="body-zone" onclick="handleLevel3Zone('badan', event)">
+                <path d="M82 126 Q130 118 178 126 L186 228 H74 Z" fill="url(#l3Shirt)" stroke="#14532d" stroke-width="2.8"/>
+                <rect x="112" y="122" width="36" height="16" rx="6" fill="#fef08a" stroke="#14532d" stroke-width="1.5"/>
+                <!-- Seluar panjang sopan paras atas buku lali -->
+                <path d="M82 228 H178 L172 294 H138 L130 252 L122 294 H88 Z" fill="url(#l3Pants)" stroke="#082f49" stroke-width="2.8"/>
+                <title>Badan / Pakaian</title>
+              </g>
+
+              <!-- KEDUA-DUA TANGAN HINGGA SIKU -->
+              <g class="body-zone ${isDone('tangan') ? 'body-zone-completed' : ''}" onclick="handleLevel3Zone('tangan', event)">
+                <path d="M82 132 L46 176 L34 218" stroke="${isDone('tangan') ? 'url(#l3WaterAura)' : 'url(#l3Skin)'}" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M82 132 L46 176 L34 218" stroke="#9a5528" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.45"/>
+                <circle cx="48" cy="176" r="12" fill="${isDone('tangan') ? '#0ea5e9' : '#f59e0b'}" opacity="0.45"/>
+                <path d="M178 132 L214 176 L226 218" stroke="${isDone('tangan') ? 'url(#l3WaterAura)' : 'url(#l3Skin)'}" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M178 132 L214 176 L226 218" stroke="#9a5528" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.45"/>
+                <circle cx="212" cy="176" r="12" fill="${isDone('tangan') ? '#0ea5e9' : '#f59e0b'}" opacity="0.45"/>
+                <path d="M84 128 L60 156" stroke="url(#l3Shirt)" stroke-width="24" stroke-linecap="round"/>
+                <path d="M176 128 L200 156" stroke="url(#l3Shirt)" stroke-width="24" stroke-linecap="round"/>
+                <title>Kedua-dua Tangan hingga Siku</title>
+              </g>
+
+              <!-- KEDUA-DUA KAKI HINGGA BUKU LALI -->
+              <g class="body-zone ${isDone('kaki') ? 'body-zone-completed' : ''}" onclick="handleLevel3Zone('kaki', event)">
+                <rect x="92" y="292" width="24" height="36" rx="8" fill="${isDone('kaki') ? 'url(#l3WaterAura)' : 'url(#l3Skin)'}" stroke="#9a5528" stroke-width="2.6"/>
+                <ellipse cx="98" cy="330" rx="18" ry="10" fill="${isDone('kaki') ? 'url(#l3WaterAura)' : 'url(#l3Skin)'}" stroke="#9a5528" stroke-width="2.6"/>
+                <circle cx="104" cy="306" r="5" fill="#0ea5e9" opacity="0.75"/>
+                <rect x="144" y="292" width="24" height="36" rx="8" fill="${isDone('kaki') ? 'url(#l3WaterAura)' : 'url(#l3Skin)'}" stroke="#9a5528" stroke-width="2.6"/>
+                <ellipse cx="162" cy="330" rx="18" ry="10" fill="${isDone('kaki') ? 'url(#l3WaterAura)' : 'url(#l3Skin)'}" stroke="#9a5528" stroke-width="2.6"/>
+                <circle cx="156" cy="306" r="5" fill="#0ea5e9" opacity="0.75"/>
+                <title>Kedua-dua Kaki hingga Buku Lali</title>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Panel Petunjuk & Butang Pantas Mesra Skrin Sentuh -->
+          <div class="space-y-3">
+            <div class="p-4 rounded-2xl bg-amber-50 border-2 border-amber-200">
+              <h3 class="font-cartoon text-lg text-amber-900 mb-1">
+                <i class="fa-solid fa-wand-magic-sparkles text-heroOrange mr-1"></i> Kuasa BoBoiBoy Air
+              </h3>
+              <p class="text-xs sm:text-sm font-bold text-slate-700">
+                Kamu boleh klik terus pada tubuh watak di sebelah ATAU pilih butang anggota di bawah:
+              </p>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <button type="button" onclick="handleLevel3Zone('kepala', event)" class="btn-game btn-white py-2.5 px-3 rounded-xl font-cartoon text-sky-900 text-sm">Kepala</button>
+              <button type="button" onclick="handleLevel3Zone('muka', event)" class="btn-game btn-white py-2.5 px-3 rounded-xl font-cartoon text-sky-900 text-sm">Muka</button>
+              <button type="button" onclick="handleLevel3Zone('telinga', event)" class="btn-game btn-white py-2.5 px-3 rounded-xl font-cartoon text-sky-900 text-sm">Telinga</button>
+              <button type="button" onclick="handleLevel3Zone('tangan', event)" class="btn-game btn-white py-2.5 px-3 rounded-xl font-cartoon text-sky-900 text-sm">Tangan &amp; Siku</button>
+              <button type="button" onclick="handleLevel3Zone('badan', event)" class="btn-game btn-white py-2.5 px-3 rounded-xl font-cartoon text-sky-900 text-sm">Badan</button>
+              <button type="button" onclick="handleLevel3Zone('kaki', event)" class="btn-game btn-white py-2.5 px-3 rounded-xl font-cartoon text-sky-900 text-sm">Kaki &amp; Buku Lali</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleLevel3Zone(zone, ev) {
+      if (!document.getElementById('playNextBtn').classList.contains('hidden')) return;
+      const target = LEVEL3_TARGETS[GameState.stepIndex];
+      const cx = ev.clientX || window.innerWidth / 2;
+      const cy = ev.clientY || window.innerHeight / 2;
+
+      if (zone === target.zone) {
+        AudioEngine.playSplash();
+        AudioEngine.playCorrect();
+        GameState.l3DoneZones.push(zone);
+        GameState.levelCorrect++;
+        GameState.levelScore += 150;
+        renderLevel3();
+        spawnParticles(cx, cy, 'water', 20);
+        spawnFloatingScore('+150 💧', cx, cy, '#0284c7');
+        showFeedback(true, 'Serangan Air Tepat! ' + randomFrom(MOTIVATION_CORRECT), target.explain);
+
+        const isLast = GameState.stepIndex === LEVEL3_TARGETS.length - 1;
+        setNextButton(isLast ? 'TAMATKAN PERINGKAT' : 'SASARAN SETERUSNYA', () => {
+          if (isLast) finishLevel();
+          else {
+            GameState.stepIndex++;
+            renderLevel3();
+          }
+        });
+      } else {
+        AudioEngine.playWrong();
+        let reason = 'Bukan bahagian yang diminta! Cuba lihat semula arahan BoBoiBoy Air.';
+        if (zone === 'telinga') reason = 'Menyapu telinga ialah perkara SUNAT, bukan rukun yang diminta sekarang.';
+        if (zone === 'badan') reason = 'Bahagian badan/pakaian bukan anggota wuduk.';
+        showFeedback(false, randomFrom(MOTIVATION_WRONG), reason);
+      }
+    }
+
+    /* ----------------------------------------------------------------
+       LEVEL 4: BETUL ATAU SALAH? (Gopal & Fang)
+       ---------------------------------------------------------------- */
+    function renderLevel4() {
+      const idx = GameState.stepIndex;
+      const item = LEVEL4_STATEMENTS[idx];
+      GameState.levelTotal = LEVEL4_STATEMENTS.length;
+      document.getElementById('playStepCounter').textContent = `Situasi ${idx + 1} / ${LEVEL4_STATEMENTS.length}`;
+      hideFeedback();
+      document.getElementById('playNextBtn').classList.add('hidden');
+
+      const stage = document.getElementById('playStageContent');
+      stage.innerHTML = `
+        <div class="flex items-center justify-center gap-4 mb-4">
+          <div class="anim-float-fast">${getCharacterSVG('gopal', 68)}</div>
+          <div class="anim-float">${getCharacterSVG('fang', 68)}</div>
+        </div>
+        <div class="bg-sky-50 border-3 border-sky-300 rounded-2xl p-6 text-center mb-6">
+          <span class="inline-block px-3 py-1 rounded-full bg-sky-200 text-sky-900 font-extrabold text-xs mb-2">
+            SITUASI ${idx + 1}
+          </span>
+          <p class="font-cartoon text-xl sm:text-2xl text-sky-950 leading-relaxed">
+            &ldquo;${item.text}&rdquo;
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
+          <button id="l4TrueBtn" type="button" onclick="handleLevel4Answer(true, event)" class="btn-game btn-green text-white font-cartoon text-2xl py-4 rounded-2xl flex items-center justify-center gap-2.5">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>BETUL</span>
+          </button>
+          <button id="l4FalseBtn" type="button" onclick="handleLevel4Answer(false, event)" class="btn-game btn-red text-white font-cartoon text-2xl py-4 rounded-2xl flex items-center justify-center gap-2.5">
+            <i class="fa-solid fa-circle-xmark"></i>
+            <span>SALAH</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function handleLevel4Answer(choice, ev) {
+      document.getElementById('l4TrueBtn').disabled = true;
+      document.getElementById('l4FalseBtn').disabled = true;
+
+      const item = LEVEL4_STATEMENTS[GameState.stepIndex];
+      const rect = ev.currentTarget.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+
+      if (choice === item.answer) {
+        AudioEngine.playCorrect();
+        GameState.levelCorrect++;
+        GameState.levelScore += 100;
+        spawnParticles(cx, cy, 'star', 14);
+        spawnFloatingScore('+100', cx, cy, '#16a34a');
+        showFeedback(true, randomFrom(MOTIVATION_CORRECT), item.explain);
+      } else {
+        AudioEngine.playWrong();
+        showFeedback(false, randomFrom(MOTIVATION_WRONG), item.explain);
+      }
+
+      const isLast = GameState.stepIndex === LEVEL4_STATEMENTS.length - 1;
+      setNextButton(isLast ? 'TAMATKAN PERINGKAT' : 'SITUASI SETERUSNYA', () => {
+        if (isLast) finishLevel();
+        else {
+          GameState.stepIndex++;
+          renderLevel4();
+        }
+      });
+    }
+
+    /* ----------------------------------------------------------------
+       LEVEL 5: MISI SELAMATKAN PLANET WUDUK (8 Soalan Pilihan Berganda)
+       ---------------------------------------------------------------- */
+    function renderLevel5() {
+      const idx = GameState.stepIndex;
+      const q = LEVEL5_QUESTIONS[idx];
+      GameState.levelTotal = LEVEL5_QUESTIONS.length;
+      document.getElementById('playStepCounter').textContent = `Soalan ${idx + 1} / ${LEVEL5_QUESTIONS.length}`;
+      hideFeedback();
+      document.getElementById('playNextBtn').classList.add('hidden');
+
+      const waterPct = Math.round(((idx) / LEVEL5_QUESTIONS.length) * 100);
+      const letters = ['A', 'B', 'C', 'D'];
+
+      const stage = document.getElementById('playStageContent');
+      stage.innerHTML = `
+        <!-- Meter Pemulihan Air Planet Wuduk -->
+        <div class="mb-4 p-3 rounded-2xl bg-sky-100 border-2 border-sky-300">
+          <div class="flex justify-between text-xs font-extrabold text-sky-900 mb-1">
+            <span><i class="fa-solid fa-droplet text-skyAqua mr-1"></i> Paras Pemulihan Air Planet Wuduk</span>
+            <span>${waterPct}%</span>
+          </div>
+          <div class="w-full h-3 bg-white rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-sky-400 to-cyan-500 transition-all duration-500" style="width:${waterPct}%"></div>
+          </div>
+        </div>
+
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-5 mb-4">
+          <p class="font-cartoon text-lg sm:text-2xl text-sky-950 leading-snug">${q.q}</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          ${q.options.map((opt, i) => `
+            <button type="button" onclick="handleMCQAnswer(${i}, LEVEL5_QUESTIONS, event)" class="mcq-btn btn-game btn-white text-left p-4 rounded-2xl flex items-center gap-3">
+              <span class="w-9 h-9 rounded-xl bg-skyAqua text-white font-cartoon text-lg flex items-center justify-center shrink-0">${letters[i]}</span>
+              <span class="font-extrabold text-sm sm:text-base text-sky-950">${opt}</span>
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    /* ----------------------------------------------------------------
+       LEVEL 6: PERTARUNGAN AKHIR WIRA WUDUK (10 Soalan Rawak, Lulus >= 8)
+       ---------------------------------------------------------------- */
+    function initLevel6() {
+      const pool = [...LEVEL6_BANK].sort(() => Math.random() - 0.5);
+      GameState.l6Questions = pool.slice(0, 10);
+      GameState.levelTotal = 10;
+      GameState.stepIndex = 0;
+      renderLevel6();
+    }
+
+    function renderLevel6() {
+      const idx = GameState.stepIndex;
+      const q = GameState.l6Questions[idx];
+      document.getElementById('playStepCounter').textContent = `Soalan ${idx + 1} / 10`;
+      hideFeedback();
+      document.getElementById('playNextBtn').classList.add('hidden');
+
+      const bossHp = Math.max(0, 100 - GameState.levelCorrect * 10);
+      const letters = ['A', 'B', 'C', 'D'];
+
+      const stage = document.getElementById('playStageContent');
+      stage.innerHTML = `
+        <!-- Bar Tenaga Pertarungan Akhir -->
+        <div class="mb-4 p-3.5 rounded-2xl bg-slate-900 text-white border-2 border-sky-400 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">⚡</span>
+            <span class="font-cartoon text-sm sm:text-base text-yellow-300">Markah Lulus: 8 / 10 (Semasa: ${GameState.levelCorrect})</span>
+          </div>
+          <div class="flex-1 min-w-[160px] max-w-xs">
+            <div class="flex justify-between text-xs font-bold text-rose-300 mb-1">
+              <span>Kuasa Kegelapan</span>
+              <span>${bossHp}%</span>
+            </div>
+            <div class="w-full h-3 bg-slate-700 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-rose-500 to-orange-500 transition-all duration-500" style="width:${bossHp}%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-sky-50 border-2 border-sky-300 rounded-2xl p-5 mb-4">
+          <p class="font-cartoon text-lg sm:text-2xl text-sky-950 leading-snug">${q.q}</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          ${q.options.map((opt, i) => `
+            <button type="button" onclick="handleMCQAnswer(${i}, GameState.l6Questions, event)" class="mcq-btn btn-game btn-white text-left p-4 rounded-2xl flex items-center gap-3">
+              <span class="w-9 h-9 rounded-xl bg-heroOrange text-white font-cartoon text-lg flex items-center justify-center shrink-0">${letters[i]}</span>
+              <span class="font-extrabold text-sm sm:text-base text-sky-950">${opt}</span>
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function handleMCQAnswer(choiceIdx, qList, ev) {
+      const q = qList[GameState.stepIndex];
+      const btns = document.querySelectorAll('.mcq-btn');
+      btns.forEach(b => b.disabled = true);
+
+      const rect = ev.currentTarget.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+
+      if (choiceIdx === q.correct) {
+        AudioEngine.playCorrect();
+        GameState.levelCorrect++;
+        GameState.levelScore += 100;
+        ev.currentTarget.classList.remove('btn-white');
+        ev.currentTarget.classList.add('btn-green', 'text-white');
+        ev.currentTarget.querySelector('span:last-child').classList.add('text-white');
+        spawnParticles(cx, cy, GameState.currentLevel === 6 ? 'water' : 'star', 16);
+        spawnFloatingScore('+100', cx, cy, '#16a34a');
+        showFeedback(true, randomFrom(MOTIVATION_CORRECT), q.explain);
+      } else {
+        AudioEngine.playWrong();
+        ev.currentTarget.classList.remove('btn-white');
+        ev.currentTarget.classList.add('btn-red', 'text-white');
+        ev.currentTarget.querySelector('span:last-child').classList.add('text-white');
+        btns[q.correct].classList.add('ring-4', 'ring-leafGreen');
+        showFeedback(false, randomFrom(MOTIVATION_WRONG), q.explain);
+      }
+
+      const isLast = GameState.stepIndex === qList.length - 1;
+      setNextButton(isLast ? 'LIHAT KEPUTUSAN' : 'SOALAN SETERUSNYA', () => {
+        if (isLast) finishLevel();
+        else {
+          GameState.stepIndex++;
+          if (GameState.currentLevel === 5) renderLevel5();
+          else renderLevel6();
+        }
+      });
+    }
+
+    /* ================================================================
+       8. PENAMATAN PERINGKAT & SKRIN KEMENANGAN AKHIR
+       ================================================================ */
+    function finishLevel() {
+      const lvl = GameState.currentLevel;
+      const accuracy = Math.round((GameState.levelCorrect / Math.max(1, GameState.levelTotal)) * 100);
+
+      // Syarat khas Level 6: mesti sekurang-kurangnya 8 / 10 untuk menamatkan misi
+      if (lvl === 6 && GameState.levelCorrect < 8) {
+        AudioEngine.playWrong();
+        document.getElementById('playStageContent').innerHTML = `
+          <div class="text-center py-6">
+            <div class="flex justify-center mb-3">${getCharacterSVG('boboiboy', 96)}</div>
+            <h3 class="font-cartoon text-3xl text-heroOrange mb-2">HAMPIR BERJAYA!</h3>
+            <p class="font-extrabold text-lg text-sky-950 mb-2">
+              Kamu mendapat <strong>${GameState.levelCorrect} / 10</strong> markah (${accuracy}%).
+            </p>
+            <p class="text-sm sm:text-base font-bold text-slate-600 max-w-md mx-auto">
+              Untuk mengalahkan Kuasa Kegelapan dan memperoleh gelaran <strong>Wira Wuduk</strong>, kamu perlu mencapai sekurang-kurangnya <strong>8 daripada 10</strong> markah. Jangan putus asa, cuba lagi!
+            </p>
+          </div>
+        `;
+        hideFeedback();
+        document.getElementById('playNextBtn').classList.add('hidden');
+        document.getElementById('playRetryBtn').classList.remove('hidden');
+        return;
+      }
+
+      AudioEngine.playVictory();
+      spawnParticles(window.innerWidth / 2, window.innerHeight / 3, 'star', 26);
+
+      const stars = accuracy >= 90 ? 3 : accuracy >= 60 ? 2 : 1;
+      const prev = GameState.completedLevels[lvl];
+      if (!prev) {
+        GameState.totalScore += GameState.levelScore;
+        GameState.completedLevels[lvl] = { stars, score: GameState.levelScore, accuracy };
+      } else {
+        if (GameState.levelScore > prev.score) {
+          GameState.totalScore += (GameState.levelScore - prev.score);
+        }
+        GameState.completedLevels[lvl] = {
+          stars: Math.max(prev.stars, stars),
+          score: Math.max(prev.score, GameState.levelScore),
+          accuracy: Math.max(prev.accuracy, accuracy)
+        };
+      }
+
+      const meta = LEVELS_META[lvl - 1];
+      document.getElementById('lcTitle').textContent = `KRISTAL ${lvl} DIPEROLEHI!`;
+      document.getElementById('lcAvatar').innerHTML = getCharacterSVG(meta.char, 96);
+      document.getElementById('lcCrystal').innerHTML = getCrystalSVG(true, meta.crystalColor, 82);
+      document.getElementById('lcStars').innerHTML = [1, 2, 3].map(s =>
+        `<i class="fa-solid fa-star ${stars >= s ? 'text-amber-400 drop-shadow' : 'text-slate-300'}"></i>`
+      ).join('');
+      document.getElementById('lcMessage').textContent = `${randomFrom(MOTIVATION_CORRECT)} Kristal Ilmu "${meta.name}" kini milik kamu!`;
+      document.getElementById('lcScore').textContent = `+${GameState.levelScore}`;
+      document.getElementById('lcAccuracy').textContent = `${accuracy}%`;
+
+      const nextBtn = document.getElementById('lcNextLevelBtn');
+      if (lvl < 6) {
+        nextBtn.innerHTML = `<span>LEVEL ${lvl + 1}</span> <i class="fa-solid fa-arrow-right ml-1"></i>`;
+        nextBtn.onclick = () => { playClick(); startLevel(lvl + 1); };
+      } else {
+        nextBtn.innerHTML = `<span>TAMATKAN MISI!</span> <i class="fa-solid fa-crown ml-1"></i>`;
+        nextBtn.onclick = () => { playClick(); showVictoryScreen(); };
+      }
+
+      showScreen('level-complete');
+    }
+
+    function getAchievementRank(avgPct) {
+      if (avgPct >= 100) return 'Wira Wuduk Terhebat!';
+      if (avgPct >= 80) return 'Wira Wuduk';
+      if (avgPct >= 50) return 'Pejuang Wuduk';
+      return 'Anak Didik Wuduk';
+    }
+
+    function showVictoryScreen() {
+      AudioEngine.playVictory();
+      setBgTheme('bg-theme-planet');
+
+      const entries = Object.values(GameState.completedLevels);
+      const totalStars = entries.reduce((sum, e) => sum + e.stars, 0);
+      const avgAcc = entries.length
+        ? Math.round(entries.reduce((sum, e) => sum + e.accuracy, 0) / entries.length)
+        : 0;
+
+      document.getElementById('vicTotalScore').textContent = GameState.totalScore;
+      document.getElementById('vicTotalStars').textContent = `${totalStars} / 18 ⭐`;
+      document.getElementById('vicRank').textContent = getAchievementRank(avgAcc);
+
+      document.getElementById('victoryCrystals').innerHTML = LEVELS_META.map(lvl => `
+        <div class="flex flex-col items-center bg-sky-50 px-3 py-2 rounded-xl border border-sky-200">
+          <div class="anim-glow">${getCrystalSVG(true, lvl.crystalColor, 40)}</div>
+          <span class="text-[11px] font-extrabold text-sky-900 mt-1">Kristal ${lvl.id}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('victoryCharacters').innerHTML = renderAllCharactersRow(76);
+      showScreen('victory');
+      spawnParticles(window.innerWidth * 0.3, window.innerHeight * 0.3, 'star', 20);
+      spawnParticles(window.innerWidth * 0.7, window.innerHeight * 0.3, 'water', 20);
+    }
+
+    function resetFullGame(goToIntro = false) {
+      GameState.currentLevel = 1;
+      GameState.completedLevels = {};
+      GameState.totalScore = 0;
+      GameState.levelScore = 0;
+      GameState.levelCorrect = 0;
+      GameState.stepIndex = 0;
+      updateHud();
+      if (goToIntro) showScreen('intro');
+      else openMapScreen();
+    }
+
+    /* ================================================================
+       9. PEMBANTU PAPARAN BARISAN SEMUA WATAK
+       ================================================================ */
+    function renderAllCharactersRow(size = 84) {
+      const roster = [
+        { key: 'yaya', label: 'Yaya' },
+        { key: 'ying', label: 'Ying' },
+        { key: 'boboiboy', label: 'BoBoiBoy' },
+        { key: 'gopal', label: 'Gopal' },
+        { key: 'fang', label: 'Fang' }
+      ];
+      return roster.map((c, idx) => `
+        <div class="flex flex-col items-center ${idx === 2 ? 'anim-float -mt-2' : 'anim-float-fast'}">
+          ${getCharacterSVG(c.key, idx === 2 ? Math.round(size * 1.15) : size)}
+          <span class="mt-1 px-2.5 py-0.5 rounded-full bg-white/90 text-sky-950 font-cartoon text-xs shadow-sm border border-sky-200">${c.label}</span>
+        </div>
+      `).join('');
+    }
+
+    /* ================================================================
+       10. ENJIN ZARAH LATAR BELAKANG HD (TITISAN AIR & KILAUAN CAHAYA)
+       ================================================================ */
+    function initHdBackgroundCanvas() {
+      const canvas = document.getElementById('bgFxCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let w = 0, h = 0;
+      const motes = [];
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      for (let i = 0; i < 42; i++) {
+        motes.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: 1.5 + Math.random() * 3.5,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: -0.25 - Math.random() * 0.55,
+          alpha: 0.25 + Math.random() * 0.55,
+          isDrop: i % 3 === 0
+        });
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, w, h);
+        for (const m of motes) {
+          m.x += m.vx;
+          m.y += m.vy;
+          if (m.y < -12) { m.y = h + 12; m.x = Math.random() * w; }
+          if (m.x < -12) m.x = w + 12;
+          if (m.x > w + 12) m.x = -12;
+
+          ctx.save();
+          ctx.globalAlpha = m.alpha;
+          const grad = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, m.r * 2.2);
+          if (m.isDrop) {
+            grad.addColorStop(0, '#ffffff');
+            grad.addColorStop(0.5, '#7dd3fc');
+            grad.addColorStop(1, 'rgba(56, 189, 248, 0)');
+          } else {
+            grad.addColorStop(0, '#fef9c3');
+            grad.addColorStop(0.5, '#fde047');
+            grad.addColorStop(1, 'rgba(250, 204, 21, 0)');
+          }
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(m.x, m.y, m.r * 2.2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('menuCharactersStage').innerHTML = renderAllCharactersRow(88);
+      document.getElementById('introBoBoiBoy').innerHTML = getCharacterSVG('boboiboy_air', 120);
+      document.getElementById('introCrystal').innerHTML = getCrystalSVG(true, '#38bdf8', 82);
+      initHdBackgroundCanvas();
+      updateHud();
+    });
+  </script>
+</body>
+</html>
